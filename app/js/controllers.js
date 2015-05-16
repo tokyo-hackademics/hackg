@@ -220,7 +220,7 @@
         if (authData !== null) {
             console.log(authData);
             console.log(getName(authData));
-            var fbUser = fbRef.child("users/" + authData.uid);
+            var fbUsers = fbRef.child("users/");
             var fbMandatoryTasks = fbRef.child("mandatoryTasks/");
             
             //タスク表示のためのon関数
@@ -232,7 +232,7 @@
 
         }
         $scope.addTask = function () {
-            console.log("debug1" + $scope.deadline);
+            console.log("execute addTask");
             var uid = getNewUid();
             var newTask = $scope.newTask;
             newTask.addDate = $scope.dateStr;
@@ -245,12 +245,10 @@
             } else {
                 newTask.deadline = "undefined";
             }
-            console.log("debug2" + newTask.deadline);
-
             newTask.isFinished = false;
             fbMandatoryTasks.child(uid).set(newTask);
             $scope.newTask = {};
-            console.log("debug3");
+            console.log("added newTask to mandatoryTasks");
 
             //生徒へのタスク情報追加
             var taskInfo = {};
@@ -262,6 +260,7 @@
                 console.log(sid + ": " + $scope.studentList[sid]);
                 fbUsers.child($scope.studentList[sid] + "/mandatoryTasks/").push(taskInfo);
             }
+            console.log("added taskInfo to eacah users/mandatoryTasks");
         };
 
     })
