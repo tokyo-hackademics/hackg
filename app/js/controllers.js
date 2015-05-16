@@ -3,6 +3,9 @@
 
     module.controller('loginController', function ($scope, fbRef) {
 
+        var date = new Date();
+        $scope.dateStr = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+
         $scope.isTeacher = false;
 
         $scope.isLogIn = function () {
@@ -216,26 +219,46 @@
             console.log(getName(authData));
             var fbUser = fbRef.child("users/" + authData.uid);
             var fbMandatoryTasks = fbRef.child("mandatoryTasks/");
-
-            fbUser.on('child_added', function (dataSnapshot) {
-                console.log(dataSnapshot.val());
-                $scope.taskList.push(dataSnapshot.val());
+            
+            //タスク表示のためのon関数
+            fbMandatoryTasks.on("child_added", function(data){
+                console.log(data.val());
+                $scope.taskList.push(data.val());
                 $scope.$apply();
             });
+
         }
         $scope.addTask = function () {
             console.log("debug1" + $scope.deadline);
+            var uid = getNewUid();
             var newTask = $scope.newTask;
-            //Dateオブジェクトが取得できなかった場合はundefineを代入（Safar対策）
-            if (typeof($scope.deadline) === typeof(Date())) {
-                newTask.deadline = $scope.deadline.toString();
+            newTask.addDate = $scope.dateStr;
+            //deadlinがオブジェクトだった場合はDateオブジェクトとして処理（Safar対策）
+            if (typeof($scope.deadline) === "object") {
+                var year = $scope.deadline.getFullYear();
+                var month = $scope.deadline.getMonth();
+                var date = $scope.deadline.getDate();
+                newTask.deadline = year + "-" + month + "-" + date;
             } else {
                 newTask.deadline = "undefined";
             }
             console.log("debug2" + newTask.deadline);
-            fbMandatoryTasks.push(newTask);
+
+            newTask.isFinished = false;
+            fbMandatoryTasks.child(uid).set(newTask);
             $scope.newTask = {};
             console.log("debug3");
+
+            //生徒へのタスク情報追加
+            var taskInfo = {};
+            var date = new Date();
+            taskInfo.uid = uid;
+            taskInfo.finishDate = "undefined";
+            taskInfo.point = newTask.point;
+            for (var sid in $scope.studentList) {
+                console.log(sid + ": " + $scope.studentList[sid]);
+                fbUsers.child($scope.studentList[sid] + "/mandatoryTasks/").push(taskInfo);
+            }
         };
 
     })
