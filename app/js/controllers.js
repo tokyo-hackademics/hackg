@@ -55,19 +55,24 @@
         };
 
         var getParam = getUrlVars();
-        $scope.classUid = getParam.class;
-        console.log("$scope.classUid", $scope.classUid);
+        if (getParam.class !== null) {
+            $scope.classUid = getParam.class;
+            console.log("$scope.classUid", $scope.classUid);
+        }
 
-        var fbClasses = fbRef.child("classes");
-        fbClasses.once("value", function (data) {
-            $scope.classHash = data.val();
-            $scope.classUids = Object.keys($scope.classHash);
-            $scope.currentClassName=$scope.classHash[$scope.classUid]["name"];
-            //console.log("keys: ", Object.keys($scope.classHash));
-            //$scope.classKeys = data.val();
-            console.log(data.val());
-            $scope.$apply();
-        });
+        //$scope.classUidが確定したあとに移動
+        if ($scope.classUid !== null) {
+            var fbClasses = fbRef.child("classes");
+            fbClasses.once("value", function (data) {
+                $scope.classHash = data.val();
+                $scope.classUids = Object.keys($scope.classHash);
+                $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
+                //console.log("keys: ", Object.keys($scope.classHash));
+                //$scope.classKeys = data.val();
+                console.log(data.val());
+                $scope.$apply();
+            });
+        }
 
         //ここまでに、$scope.classUidが定義されていないと行けない
         $scope.studentList = [];
