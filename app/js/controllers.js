@@ -39,7 +39,7 @@
                     console.log("Login Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
-                    window.setTimeout(fbRef.onAuth(authDataCallback), 2000)
+                    window.setTimeout(fbRef.onAuth(authDataCallback), 200);
                     location.href = 'user-setting.html';
                 }
 
@@ -75,12 +75,12 @@
 
             var loadClassDataInner = function () {
                 var fbClasses = fbRef.child("classes");
-                console.log("hogehoge",$scope.classUid);
+                console.log("hogehoge", $scope.classUid);
                 if ($scope.classUid) {
                     fbClasses.once("value", function (data) {
                         $scope.classHash = data.val();
                         $scope.classUids = Object.keys($scope.classHash);
-                        console.log("hogehoge2",$scope.classUid);
+                        console.log("hogehoge2", $scope.classUid);
                         $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
                         //console.log("keys: ", Object.keys($scope.classHash));
                         //$scope.classKeys = data.val();
@@ -98,10 +98,8 @@
                         $scope.usersData = usersData;
                         var studentList = [];
                         for (var key in usersData) {
-                            console.log(usersData[key]["name"]);
                             if (usersData[key]["class"] === $scope.classUid && !usersData[key]["isTeacher"]) {
                                 studentList.push(key);
-                                //console.log("list:", studentList);
                             }
                         }
                         $scope.studentList = studentList;
@@ -113,9 +111,6 @@
             if (authData !== null) {
                 var fbMe = fbRef.child("users/" + authData.uid);
                 var fbUsers = fbRef.child("users");
-
-                console.log("aaaa");
-
 
                 fbMe.once("value", function (dataSnapShot) {
                     console.log("fbMe once: " + dataSnapShot.val()["class"]);
@@ -151,12 +146,9 @@
             });
         }
         $scope.addTask = function () {
-            console.log("debug1");
             var newTask = $scope.newTask;
             fbTasks.push(newTask);
-            console.log("debug2");
             $scope.newTask = {};
-            console.log("debug3");
         };
 
     })

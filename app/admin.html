@@ -33,7 +33,8 @@
             </div>
             <div class="panel-body">
                 <form ng-submit="setClassName()">
-                    <input type="text" placeholder="新しい学級名を入れてね" required class="form-control" ng-model="newClassName"><br>
+                    <input type="text" placeholder="新しい学級名を入れてね" required class="form-control"
+                           ng-model="newClassName"><br>
                     <button class="btn btn-lg btn-primary" type="submit">送信</button>
                     <br>
                     debug: {{newClassName}}
@@ -49,7 +50,8 @@
             </div>
             <div class="panel-body">
                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="uid in classUids"><strong>{{classHash[uid]["name"]}} (uid: {{uid}})</strong>
+                    <li class="list-group-item" ng-repeat="uid in classUids"><strong>{{classHash[uid]["name"]}} (uid:
+                        {{uid}})</strong>
                     </li>
                 </ul>
                 {{Object.keys(classHash)}}
