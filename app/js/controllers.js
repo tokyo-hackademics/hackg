@@ -215,7 +215,6 @@
     module.controller('teacherPageController', function ($scope, fbRef) {
         var authData = fbRef.getAuth();
         $scope.taskList = [];
-        $scope.taskStatusList = [];
 
         if (authData !== null) {
             console.log(authData);
@@ -226,7 +225,9 @@
             //タスク表示のためのon関数
             fbMandatoryTasks.on("child_added", function(data){
                 console.log(data.val());
-                $scope.taskList.push(data.val());
+                var task = data.val();
+                task.uid = data.key();
+                $scope.taskList.push(task);
                 $scope.$apply();
             });
 
@@ -261,6 +262,35 @@
                 fbUsers.child($scope.studentList[sid] + "/mandatoryTasks/").push(taskInfo);
             }
             console.log("added taskInfo to eacah users/mandatoryTasks");
+        };
+
+        //TodoタスクをクリックするとDoneTaskになる
+        $scope.clickTodoTask = function(){
+            console.log("clickTodoTask");
+            for( var k in $scope.taskList ){
+                var task = $scope.taskList[k];
+                if(task.isFinished) {
+                    console.log(task.uid +"= isFinished: true.");
+                    console.log(task);
+                    fbMandatoryTasks.child(task.uid)
+                        .set({ title: task.title, addDate: task.addDate, deadline: task.deadline,
+                            point: task.point, description: task.description, isFinished: task.isFinished } );
+                }
+            }
+        };
+
+        //DoneタスクをクリックするとTodoTaskになる
+        $scope.clickDoneTask = function(){
+            console.log("clickDoneTask");
+            for( var k in $scope.taskList ){
+                var task = $scope.taskList[k];
+                if(!task.isFinished) {
+                    console.log(task.uid +"= isFinished: false.");
+                    fbMandatoryTasks.child(task.uid)
+                        .set({ title: task.title, addDate: task.addDate, deadline: task.deadline,
+                            point: task.point, description: task.description, isFinished: task.isFinished } );
+                }
+            }
         };
 
     })

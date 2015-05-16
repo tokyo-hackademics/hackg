@@ -29,7 +29,7 @@
         <!--<li><a href="">Link3</a></li>-->
         <!--</ul>-->
     </nav>
-    
+
     <span ng-show="!isLogIn()">ログインしていません <a href="login-sample.html">ログインページ</a></span>
 
     <div ng-controller="teacherPageController">
@@ -95,10 +95,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-click="hoge()" ng-repeat="task in taskList | filter: false | orderBy: 'addDate' | limitTo: 3">
+                        <tr ng-repeat="task in taskList | filter: false | orderBy: 'addDate' | limitTo: 3">
                             <td>{{task.title}}</td>
                             <td>{{task.addDate}}</td>
                             <td>{{task.deadline}}</td>
+                            <td><input type="checkbox" ng-change="clickTodoTask()" ng-model="task.isFinished" ng-init="task.isFinished=false"></td>
                         </tr>
                         </tbody>
 
@@ -113,10 +114,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-click="hoge()" ng-repeat="task in taskList | filter: true | orderBy: 'addDate' | limitTo: 3">
+                        <tr ng-repeat="task in taskList | filter: true | orderBy: 'addDate' | limitTo: 3">
                             <td>{{task.title}}</td>
                             <td>{{task.addDate}}</td>
                             <td>{{task.deadline}}</td>
+                            <td><input type="checkbox" ng-change="clickDoneTask()" ng-model="task.isFinished" ng-init="task.isFinished=true" ></td>
                         </tr>
                         </tbody>
 
