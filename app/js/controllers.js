@@ -158,6 +158,7 @@
             console.log(authData);
             console.log(getName(authData));
             var fbUser = fbRef.child("users/" + authData.uid);
+            var fbMandatoryTasks = fbRef.child("mandatoryTasks/");
 
             fbUser.on('child_added', function (dataSnapshot) {
                 console.log(dataSnapshot.val());
@@ -166,10 +167,16 @@
             });
         }
         $scope.addTask = function () {
-            console.log("debug1");
+            console.log("debug1" + $scope.deadline);
             var newTask = $scope.newTask;
-            fbUser.child("mandatoryTasks").push(newTask);
-            console.log("debug2");
+            //Dateオブジェクトが取得できなかった場合はundefineを代入（Safar対策）
+            if (typeof($scope.deadline) === typeof(Date()) ) {
+                newTask.deadline = $scope.deadline.toString();
+            } else {
+                newTask.deadline = "undefined";
+            }
+            console.log("debug2" + newTask.deadline);
+            fbMandatoryTasks.push(newTask);
             $scope.newTask = {};
             console.log("debug3");
         };
