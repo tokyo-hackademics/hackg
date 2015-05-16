@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./css/teacher.css">
 </head>
 <body>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-inverse">
     <div class="navbar-header">
         <a class="navbar-brand" href="">HackG (仮) - x年y組</a>
     </div>
@@ -33,27 +33,43 @@
                 <h4>宿題の追加</h4>
 
                 <div class="row">
-                    <form class="form-inline">
+                    <form class="form-horizontal" style="padding-left:20px;">
                         <!--<div class="form-group col-md-4 col-sm-4">-->
                         <div class="form-group">
-                            <label class="sr-only" for="taskDeadline">宿題期限</label>
-                            <input type="date" class="form-control" id="taskDeadline" placeholder="宿題期限">
+                            <label class="col-md-2 col-sm-2" for="taskDeadline">期限</label>
+
+                            <div class="col-sm-4 col-md-4">
+                                <input type="date" class="form-control" id="taskDeadline" placeholder="2015/05/16">
+                            </div>
                         </div>
                         <!--<div class="form-group col-md-6 col-sm-6">-->
                         <div class="form-group">
-                            <label class="sr-only" for="taskTitle">宿題タイトル</label>
-                            <input type="text" class="form-control" id="taskTitle" placeholder="宿題タイトル">
+                            <label class="col-md-2 col-sm-2" for="taskTitle">タイトル</label>
+
+                            <div class="col-sm-8 col-md-8">
+                                <input type="text" class="form-control" id="taskTitle" placeholder="漢字の書き取り">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-2" for="taskDescription">説明</label>
+
+                            <div class="col-sm-8 col-md-8">
+                                <textarea class="form-control" rows="3" id="taskDescription"
+                                          placeholder="漢字ドリルp33〜p41"></textarea>
+                            </div>
                         </div>
                         <div class="form-group">
                             <!--<div class="form-group col-md-2 col-sm-2">-->
-                            <button type="submit" class="btn btn-default">追加</button>
+                            <div class="col-sm-offset-2 col-md-2 col-sm-2">
+                                <button type="submit" class="btn btn-default">追加</button>
+                            </div>
                         </div>
                     </form>
 
 
                 </div>
                 <h4>宿題一覧</h4>
-                <table class="table table-striped table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>今出している宿題</th>
@@ -81,7 +97,7 @@
 
                 </table>
 
-                <table class="table table-striped table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>完了済みの宿題</th>
@@ -110,18 +126,18 @@
                 </table>
             </div>
             <div class="col-md-5 col-sm-5 teacher-view-board">
-                <h4>生徒の宿題状況 {{宿題名}}</h4>
+                <h4>生徒の宿題状況 宿題名</h4>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">生徒一覧</div>
                     <div class="panel-body">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <span class="badge">未提出</span>
+                                <span class="badge alert-danger">未提出</span>
                                 谷口 絢子
                             </li>
                             <li class="list-group-item">
-                                <span class="badge">未提出</span>
+                                <span class="badge alert-danger">未提出</span>
                                 小泉 花陽
                             </li>
                             <li class="list-group-item">
@@ -129,14 +145,15 @@
                                 東條 希
                             </li>
                             <li class="list-group-item">
-                                <span class="badge">未提出</span>
+                                <span class="badge alert-danger">未提出</span>
                                 谷口 絢子
                             </li>
                             <li class="list-group-item">
-                                <span class="badge">未提出</span>
+                                <span class="badge alert-danger">未提出</span>
                                 小泉 花陽
                             </li>
                             <li class="list-group-item">
+                                <!--<span class="label label-default label-as-badge">提出済</span>-->
                                 <span class="badge">提出済</span>
                                 東條 希
                             </li>
