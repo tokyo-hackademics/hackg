@@ -3,6 +3,8 @@
 
     module.controller('loginController', function ($scope, fbRef) {
 
+        $scope.finishLoading = false;
+
         var date = new Date();
         $scope.dateStr = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
 
@@ -110,6 +112,7 @@
                         }
                         $scope.studentList = studentList;
                         $scope.$apply();
+                        $scope.finishLoading = true;
                     });
                 }
             };
