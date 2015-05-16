@@ -9,28 +9,19 @@
             return $scope.authData !== null;
         };
 
-        var isTeacherLogIn = function () {
-            if ($scope.authData == null) return;
-            var fbUser = fbRef.child("users/" + authData.uid);
-            fbUser.once('value', function (data) {
-                console.log("TeacherLogIn: " + data.val()['isTeacher']);
-                $scope.isTeacher = data.val()['isTeacher'];
-                $scope.$apply();
-            });
-        };
-
         function authDataCallback(authData) {
             $scope.authData = authData;
             //console.log("authDataCallback() is called", $scope.authData);
             if (authData) {
                 $scope.loginStatusMessage = "ログインしています！ uid is " + authData.uid + "";
+                loadClassData(authData);
             } else {
                 $scope.loginStatusMessage = "ログインしていません";
 
             }
             console.log($scope.loginStatusMessage);
 
-            isTeacherLogIn();
+            //isTeacherLogIn();
 
         }
 
@@ -55,23 +46,61 @@
         };
 
         var getParam = getUrlVars();
-        $scope.classUid = getParam.class;
-        console.log("$scope.classUid", $scope.classUid);
+        if (getParam.class !== null) {
+            $scope.classUid = getParam.class;
+            console.log("$scope.classUid", $scope.classUid);
+        }
 
-        var fbClasses = fbRef.child("classes");
-        fbClasses.once("value", function (data) {
-            $scope.classHash = data.val();
-            $scope.classUids = Object.keys($scope.classHash);
-            $scope.currentClassName=$scope.classHash[$scope.classUid]["name"];
-            //console.log("keys: ", Object.keys($scope.classHash));
-            //$scope.classKeys = data.val();
-            console.log(data.val());
-            $scope.$apply();
-        });
+        //ユーザ認証した後に各種データを読み込む関数
+        var loadClassData = function(authData) {
+
+            var fbMe = fbRef.child("users/" + authData.uid);
+            var fbClasses = fbRef.child("classes");
+            var fbUsers = fbRef.child("users");
+
+            console.log("aaaa");
+
+            fbMe.once("value", function (dataSnapShot) {
+
+                console.log("fbMe once: " + dataSnapShot.val()["class"]);
+                $scope.classUid = dataSnapShot.val()["class"];
+                $scope.isTeacher = dataSnapShot.val()["isTeacher"];
+
+                if ($scope.classUid !== null) {
+                    fbClasses.once("value", function (data) {
+                        $scope.classHash = data.val();
+                        $scope.classUids = Object.keys($scope.classHash);
+                        $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
+                        //console.log("keys: ", Object.keys($scope.classHash));
+                        //$scope.classKeys = data.val();
+                        console.log(data.val());
+                        $scope.$apply();
+                    });
+                }
+
+                //ここまでに、$scope.classUidが定義されていないと行けない
+                $scope.studentList = [];
+                if ($scope.classUid !== null) {
+                    fbUsers.once("value", function (data) {
+                        var usersData = data.val();
+                        var studentList = [];
+                        for (var key in usersData) {
+                            console.log(usersData[key]["name"]);
+                            if (usersData[key]["class"] === $scope.classUid && !usersData[key]["isTeacher"]) {
+                                studentList.push(key);
+                                //console.log("list:", studentList);
+                            }
+                        }
+                        $scope.studentList = studentList;
+                        $scope.$apply();
+                    });
+                }
+            });
+        }
 
         //fbRef.onAuth(authDataCallback);
         var authData = fbRef.getAuth();
-        authDataCallback(authData)
+        authDataCallback(authData);
     })
 }(hackgModule));  // モジュール変数を引数に設定
 
@@ -149,5 +178,42 @@
             fbClasses.child(newUid).set({name: $scope.newClassName});
             console.log("new class registered: ", $scope.newClassName)
         };
+    })
+}(hackgModule));  // モジュール変数を引数に設定
+
+(function (module) {
+    'use strict';
+    module.controller('teacherPageController', function ($scope, fbRef) {
+        var authData = fbRef.getAuth();
+        $scope.taskList = [];
+        $scope.taskStatusList = [];
+
+        if (authData !== null) {
+            console.log(authData);
+            console.log(getName(authData));
+            var fbUser = fbRef.child("users/" + authData.uid);
+            var fbMandatoryTasks = fbRef.child("mandatoryTasks/");
+
+            fbUser.on('child_added', function (dataSnapshot) {
+                console.log(dataSnapshot.val());
+                $scope.taskList.push(dataSnapshot.val());
+                $scope.$apply();
+            });
+        }
+        $scope.addTask = function () {
+            console.log("debug1" + $scope.deadline);
+            var newTask = $scope.newTask;
+            //Dateオブジェクトが取得できなかった場合はundefineを代入（Safar対策）
+            if (typeof($scope.deadline) === typeof(Date()) ) {
+                newTask.deadline = $scope.deadline.toString();
+            } else {
+                newTask.deadline = "undefined";
+            }
+            console.log("debug2" + newTask.deadline);
+            fbMandatoryTasks.push(newTask);
+            $scope.newTask = {};
+            console.log("debug3");
+        };
+
     })
 }(hackgModule));  // モジュール変数を引数に設定
