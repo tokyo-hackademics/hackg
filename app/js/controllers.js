@@ -146,3 +146,33 @@
         };
     })
 }(hackgModule));  // モジュール変数を引数に設定
+
+(function (module) {
+    'use strict';
+    module.controller('teacherPageController', function ($scope, fbRef) {
+        var authData = fbRef.getAuth();
+        $scope.taskList = [];
+        $scope.taskStatusList = [];
+
+        if (authData !== null) {
+            console.log(authData);
+            console.log(getName(authData));
+            var fbUser = fbRef.child("users/" + authData.uid);
+
+            fbUser.on('child_added', function (dataSnapshot) {
+                console.log(dataSnapshot.val());
+                $scope.taskList.push(dataSnapshot.val());
+                $scope.$apply();
+            });
+        }
+        $scope.addTask = function () {
+            console.log("debug1");
+            var newTask = $scope.newTask;
+            fbUser.child("mandatoryTasks").push(newTask);
+            console.log("debug2");
+            $scope.newTask = {};
+            console.log("debug3");
+        };
+
+    })
+}(hackgModule));  // モジュール変数を引数に設定
