@@ -1,0 +1,85 @@
+<!doctype html>
+<html ng-app="hackgApp">
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>HackG ユーザ情報設定</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/controllers.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div ng-controller="loginController">
+
+    <form class="form-signin" ng-submit="logOut()" ng-show="isLogIn()">
+        <p>{{authData.password.email}}としてログインしています
+            <button class="btn btn-primary " type="submit">ログアウト</button>
+        </p>
+    </form>
+
+    <div ng-controller="userSettingController">
+        <h2>{{authData.password.email}}のユーザ情報設定</h2>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    名前変更フォーム
+                </div>
+            </div>
+            <div class="panel-body">
+                <form ng-submit="setName()">
+                    <div class="form-group">
+                        <input type="text" placeholder="名前を入れてね" required class="form-control" ng-model="newName">
+                    </div>
+                    <button class="btn btn-lg btn-primary" type="submit">送信</button>
+
+                    debug: {{newName}}
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    所属学級変更フォーム
+                </div>
+            </div>
+            <div class="panel-body">
+                <form name="classForm" ng-submit="setClass()">
+                    <div class="form-group">
+                        <select ng-model="selectedClass"
+                                ng-options="classHash[uid][&quot;name&quot;] for uid in classUids" required>
+                            <option value="">選択してください</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-lg btn-primary" type="submit" ng-disabled="!classForm.$valid">送信</button>
+                </form>
+                debug: {{selectedClass}}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    先生かどうか
+                </div>
+            </div>
+            <div class="panel-body">
+                <form name="isTeacherForm" ng-submit="setIsTeacher()">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="isTeacher"> 先生です
+                        </label>
+                    </div>
+                    <button class="btn btn-lg btn-primary" type="submit">送信</button>
+                </form>
+                debug: {{isTeacher}}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
