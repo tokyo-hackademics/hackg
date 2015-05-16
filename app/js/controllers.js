@@ -39,7 +39,7 @@
                     console.log("Login Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
-                    window.setTimeout(fbRef.onAuth(authDataCallback), 2000)
+                    window.setTimeout(fbRef.onAuth(authDataCallback), 200);
                     location.href = 'user-setting.html';
                 }
 
