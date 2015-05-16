@@ -3,6 +3,8 @@
 
     module.controller('loginController', function ($scope, fbRef) {
 
+        $scope.finishLoading = false;
+
         var date = new Date();
         $scope.dateStr = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
 
@@ -97,7 +99,7 @@
 
                 //ここまでに、$scope.classUidが定義されていないと行けない
                 $scope.studentList = [];
-                if ($scope.classUid !== null) {
+                if ($scope.classUid) {
                     var fbUsers = fbRef.child("users");
                     fbUsers.once("value", function (data) {
                         var usersData = data.val();
@@ -109,8 +111,12 @@
                             }
                         }
                         $scope.studentList = studentList;
+                        $scope.finishLoading = true;
                         $scope.$apply();
                     });
+                }else{
+                    $scope.finishLoading = true;
+                    //$scope.$apply();
                 }
             };
 

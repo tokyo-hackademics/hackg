@@ -18,7 +18,7 @@
 <div ng-controller="loginController">
     <nav class="navbar navbar-default navbar-inverse">
         <div class="navbar-header">
-            <a class="navbar-brand" href="">HackG (仮) - {{currentClassName}}</a>
+            <a class="navbar-brand" href="">HackG (仮) - {{currentClassName}}<span ng-show="!finishLoading"> ==== ロード中 ====</span></a>
         </div>
     </nav>
     <form class="form-signin" ng-submit="logOut()" ng-show="isLogIn()">
@@ -72,7 +72,8 @@
             <div class="col-md-4 col-sm-4"></div>
         </div>
     </div>
-    <div ng-show="!isLogIn() && !currentClassName">
+
+    <div ng-show="(!isLogIn() && !currentClassName) && finishLoading">
         <p>不適切なURLです。クラスIDを指定してください。<br>
             <a href="index.html?class=class-2xjihrso">3年1組のログインページ</a>
         </p>
