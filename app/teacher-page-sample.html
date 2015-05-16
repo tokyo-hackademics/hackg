@@ -17,11 +17,12 @@
 
 <div ng-controller="loginController">
     {{isLogIn}}
+    {{isTeacherLogIn()}}
     <span ng-show="!isLogIn()">ログインしていません <a href="login-sample.html">ログインページ</a></span>
 
     <div ng-controller="loginController" ng-show="isTeacher">isTeacher!</div>
 
-    <form class="form-signin" ng-submit="logOut()" ng-show="isTeacherLogIn()">
+    <form class="form-signin" ng-submit="logOut()" ng-show="isLogIn()">
         <p>{{authData.password.email}}としてログインしています
             <button class="btn btn-primary " type="submit">ログアウト</button>
         </p>
@@ -29,6 +30,7 @@
 
     <div ng-controller="sampleController" ng-show="isLogIn()">
         <p>↓自由に追加してみてください</p>
+
         <div class="panel panel-default">
 
             <div class="panel-heading">
