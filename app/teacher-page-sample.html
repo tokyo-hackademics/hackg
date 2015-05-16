@@ -1,0 +1,78 @@
+<!doctype html>
+<html ng-app="hackgApp">
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>HackG ログイン</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/controllers.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body>
+<h2>Nene </h2>
+
+<div ng-controller="loginController">
+    {{isLogIn}}
+    {{isTeacherLogIn()}}
+    <span ng-show="!isLogIn()">ログインしていません <a href="login-sample.html">ログインページ</a></span>
+
+    <div ng-controller="loginController" ng-show="isTeacher">isTeacher!</div>
+
+    <form class="form-signin" ng-submit="logOut()" ng-show="isLogIn()">
+        <p>{{authData.password.email}}としてログインしています
+            <button class="btn btn-primary " type="submit">ログアウト</button>
+        </p>
+    </form>
+
+    <div ng-controller="sampleController" ng-show="isLogIn()">
+        <p>↓自由に追加してみてください</p>
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <div class="panel-title">
+                    宿題追加フォーム
+                </div>
+            </div>
+            <div class="panel-body">
+                <form ng-submit="addTask()">
+                    <input type="text" placeholder="宿題名" required class="form-control" ng-model="newTask.title"><br>
+                    <textarea ng-model="newTask.description" class="form-control" rows="3"
+                              placeholder="説明"></textarea><br>
+                    <button class="btn btn-lg btn-primary" type="submit">送信</button>
+                    <br>
+                    debug: {{newTask}}
+                </form>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    出した宿題一覧
+                </div>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="task in taskList"><strong>{{task.title}}</strong>:
+                        {{task.description}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--<div ng-controller="teacherController">-->
+        <!--{{ '2012-04-01' | date:'fullDate' }}<br>-->
+        <!--{{"aaa"}}<br>-->
+        <!--{{debugMessage}}<br>-->
+        <!--{{loginStatusMessage}}<br>-->
+        <!--{{loginController.fuga}}<br>-->
+        <!--</div>-->
+    </div>
+</div>
+</body>
+</html>

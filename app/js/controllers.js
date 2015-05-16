@@ -3,8 +3,20 @@
 
     module.controller('loginController', function ($scope, fbRef) {
 
+        $scope.isTeacher = false;
+
         $scope.isLogIn = function () {
             return $scope.authData !== null;
+        };
+
+        var isTeacherLogIn = function () {
+            if ($scope.authData == null) return;
+            var fbUser = fbRef.child("users/" + authData.uid);
+            fbUser.once('value', function (data) {
+                console.log("TeacherLogIn: " + data.val()['isTeacher']);
+                $scope.isTeacher = data.val()['isTeacher'];
+                $scope.$apply();
+            });
         };
 
         function authDataCallback(authData) {
@@ -16,7 +28,10 @@
                 $scope.loginStatusMessage = "ログインしていません";
 
             }
-            console.log($scope.loginStatusMessage)
+            console.log($scope.loginStatusMessage);
+
+            isTeacherLogIn();
+
         }
 
         $scope.logOut = function () {
@@ -64,7 +79,7 @@
         if (authData !== null) {
             console.log(authData);
             console.log(getName(authData));
-            var fbTasks = fbRef.child("sample/user/" + authData.uid + "/tasks");
+            var fbTasks = fbRef.child("users/" + authData.uid + "/tasks");
 
             fbTasks.on('child_added', function (dataSnapshot) {
                 console.log(dataSnapshot.val());
