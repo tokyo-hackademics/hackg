@@ -30,6 +30,12 @@
 
         $scope.logOut = function () {
             fbRef.unauth();
+            var movePage = function(){
+                location.href = "student-login.html?class=" + $scope.classUid;
+            };
+            window.setTimeout(movePage(), 200);
+
+
         };
 
         $scope.logIn = function () {
