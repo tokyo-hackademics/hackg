@@ -33,7 +33,7 @@
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                     window.setTimeout(fbRef.onAuth(authDataCallback), 2000)
-                    location.href = 'page-sample.html';
+                    location.href = 'user-setting.html';
                 }
 
             })
@@ -98,6 +98,12 @@
             var newName = $scope.newName;
             fbUser.child("name").set(newName);
             console.log("New name registered: ", newName)
+        };
+
+        $scope.setNameYomi = function () {
+            var newNameYomi = $scope.newNameYomi;
+            fbUser.child("nameYomi").set(newNameYomi);
+            console.log("New nameYomi registered: ", newNameYomi)
         };
 
         $scope.setClass = function () {

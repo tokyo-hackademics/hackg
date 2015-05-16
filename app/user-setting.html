@@ -21,8 +21,9 @@
             <button class="btn btn-primary " type="submit">ログアウト</button>
         </p>
     </form>
+    <span ng-show="!isLogIn()">ログインしていません <a href="login-sample.html">ログインページ</a></span>
 
-    <div ng-controller="userSettingController">
+    <div ng-controller="userSettingController" ng-show="isLogIn()">
         <h2>{{authData.password.email}}のユーザ情報設定</h2>
 
         <div class="panel panel-default">
@@ -39,6 +40,23 @@
                     <button class="btn btn-lg btn-primary" type="submit">送信</button>
 
                     debug: {{newName}}
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    名前のよみがな変更フォーム
+                </div>
+            </div>
+            <div class="panel-body">
+                <form ng-submit="setNameYomi()">
+                    <div class="form-group">
+                        <input type="text" placeholder="名前を入れてね" required class="form-control" ng-model="newNameYomi">
+                    </div>
+                    <button class="btn btn-lg btn-primary" type="submit">送信</button>
+
+                    debug: {{newNameYomi}}
                 </form>
             </div>
         </div>
