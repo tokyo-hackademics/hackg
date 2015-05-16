@@ -14,7 +14,6 @@
 
         function authDataCallback(authData) {
             $scope.authData = authData;
-            //console.log("authDataCallback() is called", $scope.authData);
             if (authData) {
                 $scope.loginStatusMessage = "ログインしています！ uid is " + authData.uid + "";
                 loadClassData(authData);
@@ -31,6 +30,12 @@
 
         $scope.logOut = function () {
             fbRef.unauth();
+            var movePage = function(){
+                location.href = "student-login.html?class=" + $scope.classUid;
+            };
+            window.setTimeout(movePage(), 200);
+
+
         };
 
         $scope.logIn = function () {
@@ -78,12 +83,10 @@
 
             var loadClassDataInner = function () {
                 var fbClasses = fbRef.child("classes");
-                console.log("hogehoge", $scope.classUid);
                 if ($scope.classUid) {
                     fbClasses.once("value", function (data) {
                         $scope.classHash = data.val();
                         $scope.classUids = Object.keys($scope.classHash);
-                        console.log("hogehoge2", $scope.classUid);
                         $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
                         //console.log("keys: ", Object.keys($scope.classHash));
                         //$scope.classKeys = data.val();
