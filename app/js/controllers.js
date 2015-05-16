@@ -9,28 +9,19 @@
             return $scope.authData !== null;
         };
 
-        var isTeacherLogIn = function () {
-            if ($scope.authData == null) return;
-            var fbUser = fbRef.child("users/" + authData.uid);
-            fbUser.once('value', function (data) {
-                console.log("TeacherLogIn: " + data.val()['isTeacher']);
-                $scope.isTeacher = data.val()['isTeacher'];
-                $scope.$apply();
-            });
-        };
-
         function authDataCallback(authData) {
             $scope.authData = authData;
             //console.log("authDataCallback() is called", $scope.authData);
             if (authData) {
                 $scope.loginStatusMessage = "ログインしています！ uid is " + authData.uid + "";
+                loadClassData();
             } else {
                 $scope.loginStatusMessage = "ログインしていません";
 
             }
             console.log($scope.loginStatusMessage);
 
-            isTeacherLogIn();
+            //isTeacherLogIn();
 
         }
 
@@ -60,43 +51,56 @@
             console.log("$scope.classUid", $scope.classUid);
         }
 
-        //$scope.classUidが確定したあとに移動
-        if ($scope.classUid !== null) {
+        //ユーザ認証した後に各種データを読み込む関数
+        var loadClassData = function() {
+
+            var fbMe = fbRef.child("users/" + authData.uid);
             var fbClasses = fbRef.child("classes");
-            fbClasses.once("value", function (data) {
-                $scope.classHash = data.val();
-                $scope.classUids = Object.keys($scope.classHash);
-                $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
-                //console.log("keys: ", Object.keys($scope.classHash));
-                //$scope.classKeys = data.val();
-                console.log(data.val());
-                $scope.$apply();
-            });
-        }
-
-        //ここまでに、$scope.classUidが定義されていないと行けない
-        $scope.studentList = [];
-        if ($scope.classUid !== null) {
             var fbUsers = fbRef.child("users");
-            fbUsers.once("value", function (data) {
-                var usersData = data.val();
-                var studentList = [];
-                for (var key in usersData) {
-                    console.log(usersData[key]["name"]);
-                    if (usersData[key]["class"] === $scope.classUid && !usersData[key]["isTeacher"]) {
-                        studentList.push(key);
-                        console.log("list:", studentList);
-                    }
+
+            console.log("aaaa");
+
+            fbMe.once("value", function (dataSnapShot) {
+
+                console.log("fbMe once: " + dataSnapShot.val()["class"]);
+                $scope.classUid = dataSnapShot.val()["class"];
+                $scope.isTeacher = dataSnapShot.val()["isTeacher"];
+
+                if ($scope.classUid !== null) {
+                    fbClasses.once("value", function (data) {
+                        $scope.classHash = data.val();
+                        $scope.classUids = Object.keys($scope.classHash);
+                        $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
+                        //console.log("keys: ", Object.keys($scope.classHash));
+                        //$scope.classKeys = data.val();
+                        console.log(data.val());
+                        $scope.$apply();
+                    });
                 }
-                $scope.studentList = studentList;
-                $scope.$apply();
+
+                //ここまでに、$scope.classUidが定義されていないと行けない
+                $scope.studentList = [];
+                if ($scope.classUid !== null) {
+                    fbUsers.once("value", function (data) {
+                        var usersData = data.val();
+                        var studentList = [];
+                        for (var key in usersData) {
+                            console.log(usersData[key]["name"]);
+                            if (usersData[key]["class"] === $scope.classUid && !usersData[key]["isTeacher"]) {
+                                studentList.push(key);
+                                console.log("list:", studentList);
+                            }
+                        }
+                        $scope.studentList = studentList;
+                        $scope.$apply();
+                    });
+                }
             });
         }
-
 
         //fbRef.onAuth(authDataCallback);
         var authData = fbRef.getAuth();
-        authDataCallback(authData)
+        authDataCallback(authData);
     })
 }(hackgModule));  // モジュール変数を引数に設定
 
