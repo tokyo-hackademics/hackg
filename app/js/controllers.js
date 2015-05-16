@@ -17,6 +17,7 @@
                 loadClassData(authData);
             } else {
                 $scope.loginStatusMessage = "ログインしていません";
+                loadClassData(null);
 
             }
             console.log($scope.loginStatusMessage);
@@ -45,6 +46,24 @@
             })
         };
 
+        $scope.studentLogIn = function () {
+            var uid = $scope.studentLoginInfo.uid;
+            var password = $scope.studentLoginInfo.password;
+            var email = $scope.usersData[uid]["email"];
+            var loginInfo = {email: email, password: password};
+
+            fbRef.authWithPassword(loginInfo, function (error, authData) {
+                if (error) {
+                    console.log("Login Failed!", error);
+                } else {
+                    console.log("Authenticated successfully with payload:", authData);
+                    window.setTimeout(fbRef.onAuth(authDataCallback), 2000)
+                    location.href = 'login-sample.html';
+                }
+
+            })
+        };
+
         var getParam = getUrlVars();
         if (getParam.class !== null) {
             $scope.classUid = getParam.class;
@@ -52,24 +71,16 @@
         }
 
         //ユーザ認証した後に各種データを読み込む関数
-        var loadClassData = function(authData) {
+        var loadClassData = function (authData) {
 
-            var fbMe = fbRef.child("users/" + authData.uid);
-            var fbClasses = fbRef.child("classes");
-            var fbUsers = fbRef.child("users");
-
-            console.log("aaaa");
-
-            fbMe.once("value", function (dataSnapShot) {
-
-                console.log("fbMe once: " + dataSnapShot.val()["class"]);
-                $scope.classUid = dataSnapShot.val()["class"];
-                $scope.isTeacher = dataSnapShot.val()["isTeacher"];
-
-                if ($scope.classUid !== null) {
+            var loadClassDataInner = function () {
+                var fbClasses = fbRef.child("classes");
+                console.log("hogehoge",$scope.classUid);
+                if ($scope.classUid) {
                     fbClasses.once("value", function (data) {
                         $scope.classHash = data.val();
                         $scope.classUids = Object.keys($scope.classHash);
+                        console.log("hogehoge2",$scope.classUid);
                         $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
                         //console.log("keys: ", Object.keys($scope.classHash));
                         //$scope.classKeys = data.val();
@@ -81,8 +92,10 @@
                 //ここまでに、$scope.classUidが定義されていないと行けない
                 $scope.studentList = [];
                 if ($scope.classUid !== null) {
+                    var fbUsers = fbRef.child("users");
                     fbUsers.once("value", function (data) {
                         var usersData = data.val();
+                        $scope.usersData = usersData;
                         var studentList = [];
                         for (var key in usersData) {
                             console.log(usersData[key]["name"]);
@@ -95,8 +108,25 @@
                         $scope.$apply();
                     });
                 }
-            });
-        }
+            };
+
+            if (authData !== null) {
+                var fbMe = fbRef.child("users/" + authData.uid);
+                var fbUsers = fbRef.child("users");
+
+                console.log("aaaa");
+
+
+                fbMe.once("value", function (dataSnapShot) {
+                    console.log("fbMe once: " + dataSnapShot.val()["class"]);
+                    $scope.classUid = dataSnapShot.val()["class"];
+                    $scope.isTeacher = dataSnapShot.val()["isTeacher"];
+                    loadClassDataInner();
+                });
+            } else {
+                loadClassDataInner();
+            }
+        };
 
         //fbRef.onAuth(authDataCallback);
         var authData = fbRef.getAuth();
@@ -205,7 +235,7 @@
             console.log("debug1" + $scope.deadline);
             var newTask = $scope.newTask;
             //Dateオブジェクトが取得できなかった場合はundefineを代入（Safar対策）
-            if (typeof($scope.deadline) === typeof(Date()) ) {
+            if (typeof($scope.deadline) === typeof(Date())) {
                 newTask.deadline = $scope.deadline.toString();
             } else {
                 newTask.deadline = "undefined";
