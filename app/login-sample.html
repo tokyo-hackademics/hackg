@@ -21,14 +21,17 @@
     <form class="form-signin" ng-submit="logIn()" ng-show="!isLogIn()">
         <h3>ログインする</h3>
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus ng-model="loginInfo.email">
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
+               ng-model="loginInfo.email">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="loginInfo.password">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
+               ng-model="loginInfo.password">
         <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
     </form>
 
     <form class="form-signin" ng-submit="logOut()" ng-show="isLogIn()">
         <p class="bg-info">{{authData.password.email}}としてログインしています</p>
+
         <h3>ログアウトする</h3>
         <button class="btn btn-lg btn-primary btn-block" type="submit">ログアウト</button>
     </form>

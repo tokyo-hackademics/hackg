@@ -75,12 +75,12 @@
 
             var loadClassDataInner = function () {
                 var fbClasses = fbRef.child("classes");
-                console.log("hogehoge",$scope.classUid);
+                console.log("hogehoge", $scope.classUid);
                 if ($scope.classUid) {
                     fbClasses.once("value", function (data) {
                         $scope.classHash = data.val();
                         $scope.classUids = Object.keys($scope.classHash);
-                        console.log("hogehoge2",$scope.classUid);
+                        console.log("hogehoge2", $scope.classUid);
                         $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
                         //console.log("keys: ", Object.keys($scope.classHash));
                         //$scope.classKeys = data.val();
