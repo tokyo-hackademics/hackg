@@ -140,6 +140,7 @@
             console.log(authData);
             console.log(getName(authData));
             var fbUser = fbRef.child("users/" + authData.uid);
+            fbUser.child("email").set(authData.password.email);
         }
 
         $scope.setName = function () {
