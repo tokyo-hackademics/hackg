@@ -3,8 +3,20 @@
 
     module.controller('loginController', function ($scope, fbRef) {
 
+        $scope.isTeacher=false;
+        
         $scope.isLogIn = function () {
             return $scope.authData !== null;
+        };
+
+        $scope.isTeacherLogIn = function () {
+            if( $scope.authData === null ) return;
+            var fbUser = fbRef.child("sample/user/" + authData.uid + "");
+            fbUser.once('value',function(data){
+                console.log("TeacherLogIn: "+data.val()['isTeacher']);
+                $scope.isTeacher=data.val()['isTeacher'];
+                $score.$apply();
+            });
         };
 
         function authDataCallback(authData) {
