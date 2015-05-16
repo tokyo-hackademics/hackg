@@ -93,20 +93,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-click="hoge()">
-                            <td>漢字の練習</td>
-                            <td>2015/05/16</td>
-                            <td>2015/05/17</td>
-                        </tr>
-                        <tr>
-                            <td>さんすうプリント</td>
-                            <td>2015/05/16</td>
-                            <td>2015/05/17</td>
-                        </tr>
-                        <tr>
-                            <td>日記</td>
-                            <td>2015/05/16</td>
-                            <td>2015/05/17</td>
+                        <tr ng-click="hoge()" ng-repeat="task in taskList | filter: false | orderBy: 'addDate' | limitTo: 3">
+                            <td>{{task.title}}</td>
+                            <td>{{task.addDate}}</td>
+                            <td>{{task.deadline}}</td>
                         </tr>
                         </tbody>
 
@@ -121,20 +111,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>漢字の練習</td>
-                            <td>2015/05/16</td>
-                            <td>2015/05/17</td>
-                        </tr>
-                        <tr>
-                            <td>さんすうプリント</td>
-                            <td>2015/05/16</td>
-                            <td>2015/05/17</td>
-                        </tr>
-                        <tr>
-                            <td>日記</td>
-                            <td>2015/05/16</td>
-                            <td>2015/05/17</td>
+                        <tr ng-click="hoge()" ng-repeat="task in taskList | filter: true | orderBy: 'addDate' | limitTo: 3">
+                            <td>{{task.title}}</td>
+                            <td>{{task.addDate}}</td>
+                            <td>{{task.deadline}}</td>
                         </tr>
                         </tbody>
 
