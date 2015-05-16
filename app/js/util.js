@@ -1,9 +1,8 @@
-
 function getName(authData) {
-    if(authData == null){
+    if (authData == null) {
         return undefined
     }
-    switch(authData.provider) {
+    switch (authData.provider) {
         case 'password':
             return authData.password.email.replace(/@.*/, '');
         case 'twitter':
@@ -11,4 +10,15 @@ function getName(authData) {
         case 'facebook':
             return authData.facebook.displayName;
     }
+}
+
+function getNewUid(prefix) {
+    if(typeof prefix === 'undefined') {
+        prefix = "";
+    }else{
+        prefix = prefix + "-"
+    }
+    var length = 8;
+    var uid = prefix + Math.random().toString(36).slice(-length);
+    return uid
 }
