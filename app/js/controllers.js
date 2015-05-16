@@ -14,7 +14,7 @@
             //console.log("authDataCallback() is called", $scope.authData);
             if (authData) {
                 $scope.loginStatusMessage = "ログインしています！ uid is " + authData.uid + "";
-                loadClassData();
+                loadClassData(authData);
             } else {
                 $scope.loginStatusMessage = "ログインしていません";
 
@@ -52,7 +52,7 @@
         }
 
         //ユーザ認証した後に各種データを読み込む関数
-        var loadClassData = function() {
+        var loadClassData = function(authData) {
 
             var fbMe = fbRef.child("users/" + authData.uid);
             var fbClasses = fbRef.child("classes");
@@ -88,7 +88,7 @@
                             console.log(usersData[key]["name"]);
                             if (usersData[key]["class"] === $scope.classUid && !usersData[key]["isTeacher"]) {
                                 studentList.push(key);
-                                console.log("list:", studentList);
+                                //console.log("list:", studentList);
                             }
                         }
                         $scope.studentList = studentList;
