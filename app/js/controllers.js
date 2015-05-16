@@ -74,7 +74,6 @@
     'use strict';
     module.controller('sampleController', function ($scope, fbRef) {
         var authData = fbRef.getAuth();
-        $scope.allData = fbRef.val();
         $scope.taskList = [];
         if (authData !== null) {
             console.log(authData);
