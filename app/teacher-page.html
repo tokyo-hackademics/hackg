@@ -16,24 +16,22 @@
 <body>
 
 <div ng-controller="loginController">
-    {{isLogIn}}
     <nav class="navbar navbar-default navbar-inverse">
         <div class="navbar-header">
-            <a class="navbar-brand" href="">HackG (仮) - {{currentClassName}}</a>
+            <a class="navbar-brand" href="">HackG (仮) - {{currentClassName}}<span ng-show="!finishLoading"> ==== ロード中 ====</span></a>
         </div>
         <!--<ul class="nav navbar-nav">-->
         <!--<li class="active"><a href="">Link1</a></li>-->
         <!--<li><a href="">Link2</a></li>-->
         <!--</ul>-->
-        <!--<ul class="nav navbar-nav navbar-right">-->
-        <!--<li><a href="">Link3</a></li>-->
-        <!--</ul>-->
     </nav>
+    
+    {{isLogIn}}
 
-    <span ng-show="!isLogIn()">ログインしていません <a href="login-sample.html">ログインページ</a></span>
+    <span ng-show="!isLogIn()">ログインしていません <a href="teacher-login.html">ログインページ</a></span>
 
     <div ng-controller="teacherPageController">
-        <div class="container-fluid">
+        <div class="container-fluid" ng-show="isLogIn() && finishLoading">
             <div class="row">
                 <div class="col-md-7 col-sm-7 teacher-view-board" style="border-right: solid 1px #ddd;">
                     <h4>宿題の追加</h4>
