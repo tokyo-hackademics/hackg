@@ -48,7 +48,7 @@
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                     window.setTimeout(fbRef.onAuth(authDataCallback), 200);
-                    location.href = 'user-setting.html';
+                    location.href = 'teacher-page.html';
                 }
 
             })
