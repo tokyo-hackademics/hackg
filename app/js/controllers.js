@@ -69,6 +69,26 @@
             $scope.$apply();
         });
 
+        //ここまでに、$scope.classUidが定義されていないと行けない
+        $scope.studentList = [];
+        if ($scope.classUid !== null) {
+            var fbUsers = fbRef.child("users");
+            fbUsers.once("value", function (data) {
+                var usersData = data.val();
+                var studentList = [];
+                for (var key in usersData) {
+                    console.log(usersData[key]["name"]);
+                    if (usersData[key]["class"] === $scope.classUid && !usersData[key]["isTeacher"]) {
+                        studentList.push(key);
+                        console.log("list:", studentList);
+                    }
+                }
+                $scope.studentList = studentList;
+                $scope.$apply();
+            });
+        }
+
+
         //fbRef.onAuth(authDataCallback);
         var authData = fbRef.getAuth();
         authDataCallback(authData)
