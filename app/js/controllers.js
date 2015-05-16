@@ -98,10 +98,8 @@
                         $scope.usersData = usersData;
                         var studentList = [];
                         for (var key in usersData) {
-                            console.log(usersData[key]["name"]);
                             if (usersData[key]["class"] === $scope.classUid && !usersData[key]["isTeacher"]) {
                                 studentList.push(key);
-                                //console.log("list:", studentList);
                             }
                         }
                         $scope.studentList = studentList;
@@ -113,9 +111,6 @@
             if (authData !== null) {
                 var fbMe = fbRef.child("users/" + authData.uid);
                 var fbUsers = fbRef.child("users");
-
-                console.log("aaaa");
-
 
                 fbMe.once("value", function (dataSnapShot) {
                     console.log("fbMe once: " + dataSnapShot.val()["class"]);
@@ -151,12 +146,9 @@
             });
         }
         $scope.addTask = function () {
-            console.log("debug1");
             var newTask = $scope.newTask;
             fbTasks.push(newTask);
-            console.log("debug2");
             $scope.newTask = {};
-            console.log("debug3");
         };
 
     })
