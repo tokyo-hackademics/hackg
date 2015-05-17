@@ -35,3 +35,24 @@ var getUrlVars = function () {
     }
     return vars;
 }
+
+var date2str = function (date){
+    var str = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    return str
+}
+
+var str2date = function (str){
+    var devided = str.split("-");
+    var year = devided[0];
+    var month = devided[1];
+    var day = devided[2];
+    var date = new Date(year, month, day);
+    return date
+}
+
+var getTodayTime = function(){
+    var currentDateTime = new Date();
+    var dateStr = currentDateTime.getFullYear()+"-"+(currentDateTime.getMonth()+1)+"-"+currentDateTime.getDate();
+    var currentDate = str2date(dateStr);
+    return currentDate.getTime();
+}
