@@ -220,8 +220,8 @@
     'use strict';
     module.controller('teacherPageController', function ($scope, fbRef) {
         var authData = fbRef.getAuth();
-        $scope.selectedTaskId=null;
-        $scope.orderByTaskStatus=false;
+        $scope.selectedTaskId = null;
+        $scope.orderByTaskStatus = false;
         $scope.usersHash = {};
         $scope.taskList = [];
 
@@ -317,20 +317,20 @@
 
         //選択したタスクIDを取得してshowTaskProgressを呼ぶ
         $scope.selectTask = function (task) {
-            console.log("select Task: "+task.uid);
-            $scope.selectedTaskId=task.uid;
+            console.log("select Task: " + task.uid);
+            $scope.selectedTaskId = task.uid;
         };
 
-        $scope.toggleTaskStatus = function(){
-            console.log("toggleTaskStatus: "+$scope.orderByTaskStatus);
-            $scope.orderByTaskStatus=!$scope.orderByTaskStatus;
+        $scope.toggleTaskStatus = function () {
+            console.log("toggleTaskStatus: " + $scope.orderByTaskStatus);
+            $scope.orderByTaskStatus = !$scope.orderByTaskStatus;
 
         };
 
-        $scope.hasTaskInProgress = function( user, value ){
+        $scope.hasTaskInProgress = function (user, value) {
             var mandatoryTasks = value['mandatoryTasks'];
-            console.log("hasTaskInProgress: "+mandatoryTasks);
-            return mandatoryTasks[$scope.selectedTaskId].finishDate==='undefined' ? true : false;
+            console.log("hasTaskInProgress: " + mandatoryTasks);
+            return mandatoryTasks[$scope.selectedTaskId].finishDate === 'undefined' ? true : false;
         };
 
 
@@ -364,7 +364,7 @@
             fbMyMandatoryTasks.on("value", function (snap) {
                 $scope.myTasksArray = [];
                 var taskHash = snap.val();
-                for (var key in taskHash){
+                for (var key in taskHash) {
                     $scope.myTasksArray.push(taskHash[key]);
                 }
                 calcPoints()
@@ -399,14 +399,14 @@
                 var task = $scope.myTasksArray[i];
                 console.log(task);
                 if (task.isFinished) {
-                    totalExp += task.point;
-                    console.log(task.finishDate,"finishDate");
+                    totalExp += parseInt(task.point, 10);
+                    console.log(task.finishDate, "finishDate");
 
                     var finishDate = str2date(task.finishDate);
                     var finishTime = finishDate.getTime();
                     //note: timeはミリ秒
                     if ((currentTime - finishTime) < friendlyLimit) {
-                        friendlyPoint += task.point;
+                        friendlyPoint += parseInt(task.point, 10);
                     }
                 }
             }
@@ -418,6 +418,5 @@
             $scope.friendlyPoint = friendlyPoint;
             $scope.level = level;
         };
-
     })
 }(hackgModule));  // モジュール変数を引数に設定
