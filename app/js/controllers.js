@@ -421,8 +421,8 @@
 
             for (var i in $scope.myTasksArray) {
                 var task = $scope.myTasksArray[i];
-                //console.log(task);
                 if (task.isFinished) {
+                    console.log(task);
                     totalExp += parseInt(task.point, 10);
                     console.log(totalExp, "totalExp")
                     //console.log(task.finishDate, "finishDate");
@@ -440,8 +440,13 @@
 
             $scope.totalExp = totalExp;
             $scope.currentExp = currentExp;
-            $scope.friendlyPoint = friendlyPoint;
+            if (friendlyPoint > 10) {
+                $scope.friendlyPoint = 10;
+            } else {
+                $scope.friendlyPoint = friendlyPoint;
+            }
             $scope.level = level;
+            $scope.characterType = getCharacterType(level);
         };
 
         $scope.generateMessage = function () {
@@ -452,7 +457,18 @@
             var mes = messages[index];
             //console.log("messages[index]", mes);
             return mes;
-        }
+        };
+
+        var getCharacterType = function(level){
+            var type = 1;
+            if(level > 19){
+                type = 2;
+            }
+            if(level > 59){
+                type = 3;
+            }
+            return type;
+        };
     })
 }(hackgModule));  // モジュール変数を引数に設定
 
