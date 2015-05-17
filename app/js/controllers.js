@@ -399,14 +399,14 @@
                 var task = $scope.myTasksArray[i];
                 console.log(task);
                 if (task.isFinished) {
-                    totalExp += task.point;
-                    console.log(task.finishDate,"finishDate");
+                    totalExp += parseInt(task.point, 10);
+                    console.log(task.finishDate, "finishDate");
 
                     var finishDate = str2date(task.finishDate);
                     var finishTime = finishDate.getTime();
                     //note: timeはミリ秒
                     if ((currentTime - finishTime) < friendlyLimit) {
-                        friendlyPoint += task.point;
+                        friendlyPoint += parseInt(task.point, 10);
                     }
                 }
             }
