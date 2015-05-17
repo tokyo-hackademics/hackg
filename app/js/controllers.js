@@ -412,7 +412,7 @@
         };
 
         var calcPoints = function () {
-            var totalExp = 0;
+            var totalExp = 1;
             var currentExp;
             var friendlyPoint = 0;
             var level;
