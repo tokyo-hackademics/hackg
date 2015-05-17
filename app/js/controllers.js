@@ -68,7 +68,7 @@
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                     window.setTimeout(fbRef.onAuth(authDataCallback), 200)
-                    location.href = 'login-sample.html';
+                    location.href = 'student-page.html';
                 }
 
             })
