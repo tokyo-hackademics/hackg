@@ -32,7 +32,7 @@
 
         $scope.logOut = function () {
             fbRef.unauth();
-            var movePage = function(){
+            var movePage = function () {
                 location.href = "student-login.html?class=" + $scope.classUid;
             };
             window.setTimeout(movePage(), 200);
@@ -92,7 +92,7 @@
                         $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
                         //console.log("keys: ", Object.keys($scope.classHash));
                         //$scope.classKeys = data.val();
-                        console.log(data.val());
+                        //console.log(data.val());
                         $scope.$apply();
                     });
                 }
@@ -114,7 +114,7 @@
                         $scope.finishLoading = true;
                         $scope.$apply();
                     });
-                }else{
+                } else {
                     $scope.finishLoading = true;
                     //$scope.$apply();
                 }
@@ -228,9 +228,9 @@
             console.log(getName(authData));
             var fbUser = fbRef.child("users/" + authData.uid);
             var fbMandatoryTasks = fbRef.child("mandatoryTasks/");
-            
+
             //タスク表示のためのon関数
-            fbMandatoryTasks.on("child_added", function(data){
+            fbMandatoryTasks.on("child_added", function (data) {
                 console.log(data.val());
                 $scope.taskList.push(data.val());
                 $scope.$apply();
@@ -272,3 +272,79 @@
 
     })
 }(hackgModule));  // モジュール変数を引数に設定
+
+(function (module) {
+    'use strict';
+    module.controller('studentPageController', function ($scope, fbRef) {
+        var authData = fbRef.getAuth();
+
+        $scope.myselfInfo = {};
+        $scope.tasksInfo = {};
+        $scope.myTasksArray = [];
+
+        if (authData !== null) {
+            console.log(getName(authData));
+            var fbMe = fbRef.child("users/" + authData.uid);
+            var fbMyMandatoryTasks = fbRef.child("users/" + authData.uid + "/mandatoryTasks");
+            var fbMandatoryTasks = fbRef.child("mandatoryTasks/");
+
+            //児童自身の情報を取得
+            fbMe.child("name").once("value", function (snap) {
+                $scope.myselfInfo.name = snap.val();
+            });
+            fbMe.child("nameYomi").once("value", function (snap) {
+                $scope.myselfInfo.nameYomi = snap.val();
+            });
+
+            //児童のタスク一覧を取得
+            fbMyMandatoryTasks.once("value", function (snap) {
+                var taskHash = snap.val();
+                for (var key in taskHash){
+                    $scope.myTasksArray.push(taskHash[key]);
+                }
+                calcPoints()
+            });
+
+            //タスク表示のためのon関数
+            fbMandatoryTasks.once("value", function (snap) {
+                $scope.tasksInfo = snap.val();
+            });
+
+        }
+
+
+        var calcPoints = function () {
+            var totalExp = 0;
+            var currentExp;
+            var friendlyPoint = 0;
+            var level;
+            var currentTime = getTodayTime();
+            var friendlyLimit = 1000 * 60 * 60 * 24 * 7; //1週間のミリ秒
+
+            for (var i in $scope.myTasksArray) {
+                var task = $scope.myTasksArray[i];
+                console.log(task);
+                if (task.isFinished) {
+                    totalExp += task.point;
+                    console.log(task.finishDate,"finishDate");
+
+                    var finishDate = str2date(task.finishDate);
+                    var finishTime = finishDate.getTime();
+                    //note: timeはミリ秒
+                    if ((currentTime - finishTime) < friendlyLimit) {
+                        friendlyPoint += task.point;
+                    }
+                }
+            }
+            currentExp = totalExp % 10;
+            level = Math.floor(totalExp / 10) + 1;
+
+            $scope.totalExp = totalExp;
+            $scope.currentExp = currentExp;
+            $scope.friendlyPoint = friendlyPoint;
+            $scope.level = level;
+        };
+
+    })
+}(hackgModule));  // モジュール変数を引数に設定
+
