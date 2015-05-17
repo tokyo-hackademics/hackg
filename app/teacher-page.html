@@ -18,14 +18,16 @@
 <div ng-controller="loginController">
     <nav class="navbar navbar-default navbar-inverse">
         <div class="navbar-header">
-            <a class="navbar-brand" href="">HackG (仮) - x年y組<span ng-show="!finishLoading"> ==== ロード中 ====</span></a>
+            <a class="navbar-brand" href="">HackG (仮) - {{currentClassName}}<span ng-show="!finishLoading"> ==== ロード中 ====</span></a>
         </div>
         <!--<ul class="nav navbar-nav">-->
         <!--<li class="active"><a href="">Link1</a></li>-->
         <!--<li><a href="">Link2</a></li>-->
         <!--</ul>-->
     </nav>
+
     {{isLogIn}}
+
     <span ng-show="!isLogIn()">ログインしていません <a href="teacher-login.html">ログインページ</a></span>
 
     <div ng-controller="teacherPageController">
@@ -88,13 +90,18 @@
                             <th>今出している宿題</th>
                             <th>追加日</th>
                             <th>期限日</th>
+                            <th>完了</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-click="hoge()" ng-repeat="task in taskList | filter: false | orderBy: 'addDate' | limitTo: 3">
-                            <td>{{task.title}}</td>
+                        <tr ng-repeat="task in taskList | filter: false | orderBy: 'addDate' | limitTo: 3">
+                            <td>
+                                <div ng-click="selectTask(task)">{{task.title}}</div>
+                            </td>
                             <td>{{task.addDate}}</td>
                             <td>{{task.deadline}}</td>
+                            <td><input type="checkbox" ng-change="clickTodoTask()" ng-model="task.isFinished"
+                                       ng-init="task.isFinished=false"></td>
                         </tr>
                         </tbody>
 
@@ -106,13 +113,18 @@
                             <th>完了済みの宿題</th>
                             <th>追加日</th>
                             <th>期限日</th>
+                            <th>完了</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-click="hoge()" ng-repeat="task in taskList | filter: true | orderBy: 'addDate' | limitTo: 3">
-                            <td>{{task.title}}</td>
+                        <tr ng-repeat="task in taskList | filter: true | orderBy: 'addDate' | limitTo: 3">
+                            <td>
+                                <div ng-click="selectTask(task)">{{task.title}}</div>
+                            </td>
                             <td>{{task.addDate}}</td>
                             <td>{{task.deadline}}</td>
+                            <td><input type="checkbox" ng-change="clickDoneTask()" ng-model="task.isFinished"
+                                       ng-init="task.isFinished=true"></td>
                         </tr>
                         </tbody>
 
@@ -125,30 +137,15 @@
                         <div class="panel-heading">生徒一覧</div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <li class="list-group-item">
-                                    <span class="badge alert-danger">未提出</span>
-                                    谷口 絢子
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="badge alert-danger">未提出</span>
-                                    小泉 花陽
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="badge">提出済</span>
-                                    東條 希
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="badge alert-danger">未提出</span>
-                                    谷口 絢子
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="badge alert-danger">未提出</span>
-                                    小泉 花陽
-                                </li>
-                                <li class="list-group-item">
+                                <li ng-repeat="user in studentList" class="list-group-item">
                                     <!--<span class="label label-default label-as-badge">提出済</span>-->
-                                    <span class="badge">提出済</span>
-                                    東條 希
+                                     <span ng-if="usersHash[user].mandatoryTasks[selectedTaskId].finishDate!=='undefined' && selectedTaskId"
+                                           class="badge">提出
+                                     </span>
+                                     <span ng-if="usersHash[user].mandatoryTasks[selectedTaskId].finishDate=='undefined' && selectedTaskId"
+                                           class="badge alert-danger">未提出
+                                     </span>
+                                    {{usersHash[user].name}}
                                 </li>
                             </ul>
                         </div>
