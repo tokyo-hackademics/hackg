@@ -46,9 +46,10 @@
                         <div class="panel-heading"><h4>あなたの宿題リスト</h4></div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="tasks in myTasksArray">
-                                    {{tasksInfo[tasks["uid"]]["title"]}}
-                                    <span class="badge alert-info" ng-show="tasks.isFinished">提出済</span><span class="badge alert-danger" ng-show="!tasks.isFinished">未提出</span>
+                                <li class="list-group-item" ng-repeat="task in myTasksArray">
+                                    {{tasksInfo[task["uid"]]["title"]}}
+                                    <input type="submit" class="btn btn-danger" ng-show="!task.isFinished" ng-click="finishTask(task)" value="完了">
+                                    <span class="badge alert-info" ng-show="task.isFinished">提出済</span><span class="badge alert-danger" ng-show="!task.isFinished">未提出</span>
                                 </li>
                             </ul>
                         </div>
