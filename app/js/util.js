@@ -41,6 +41,11 @@ var date2str = function (date){
     return str
 }
 
+var getTodayString = function(){
+    var currentDateTime = new Date();
+    return date2str(currentDateTime);
+}
+
 var str2date = function (str){
     var devided = str.split("-");
     var year = devided[0];

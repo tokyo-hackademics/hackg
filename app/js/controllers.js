@@ -361,7 +361,8 @@
             });
 
             //児童のタスク一覧を取得
-            fbMyMandatoryTasks.once("value", function (snap) {
+            fbMyMandatoryTasks.on("value", function (snap) {
+                $scope.myTasksArray = [];
                 var taskHash = snap.val();
                 for (var key in taskHash){
                     $scope.myTasksArray.push(taskHash[key]);
@@ -376,6 +377,15 @@
 
         }
 
+        $scope.finishTask = function(task){
+            //console.log("hoge");
+            //console.log(task["uid"],"selected task uid");
+            var taskUid = task["uid"];
+            var todayStr = getTodayString();
+            //console.log(todayStr)
+            fbMyMandatoryTasks.child(taskUid+"/isFinished").set(true);
+            fbMyMandatoryTasks.child(taskUid+"/finishDate").set(todayStr);
+        };
 
         var calcPoints = function () {
             var totalExp = 0;
