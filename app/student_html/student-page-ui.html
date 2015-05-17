@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>タイトル</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" href="css/normalize.css">
+<!-- 	<link rel="stylesheet" href="css/reset.css">
+ -->
+ <link rel="stylesheet" href="css/student.css">
+</head>
+<body>
+	<div class="container clearfix"><!-- 全体のレイアウト -->
+
+		<div class="main"><!-- メインの左カラム -->
+
+			<div class="name-wrap clearfix"><!-- 生徒名とキャラ名 -->
+				<div class="name">
+					<span class="student-name">{{田中太郎}}くんの</span><span class="character-name">{{いもむしちゃん}}</span>
+				</div>
+				<div class="level-wrap">Lv.<span class="level">{{3}}</span></div>
+			</div><!-- おわり：生徒名とキャラ名 -->
+
+			<div class="status-wrap clearfix">
+				<div class="exp">
+					<i class="exp-icon">
+						<img src="img/ex-icon.png">
+					</i>
+					<img src="img/ex-bar.png" alt="けいけんち"><!-- 経験値 -->
+				</div>
+				<div class="fp">
+					<i class="fp-icon">
+						<img src="img/fp-icon.png">
+					</i>
+					<img src="img/fp-bar.png"><!-- 仲良し度 -->
+				</div>
+			</div>
+
+			<div class="character-wrap">
+				<img class="character" src="img/character/musi1_2_1.gif" alt="">
+			</div>
+
+			<div class="fukidashi">
+				<p>{{宿題がんばってるね！}}</p>
+				<!-- <img src="img/fukidashi.png"> -->
+			</div>
+		</div><!-- おわり：メインの左カラム -->
+
+		<div class="tasklist"><!-- 宿題リスト -->
+			<div class="tasklist-inner">
+				<div class="tasklist-title">あなたの宿題リスト</div>
+				<ul>
+					<li class="task clearfix"><div class="task-name">{{漢字の書き取りたくさんあるよ}}</div><img class="complete" src="img/complete-button.png" alt=""></li>
+					<li class="task clearfix"><div class="task-name">{{漢字の書き取り}}</div><img class="complete" src="img/complete-button.png" alt=""></li>
+					<li class="task clearfix"><div class="task-name">{{漢字の書き取り}}</div><img class="complete" src="img/complete-button.png" alt=""></li>
+				</ul>
+				<img src="img/more-button.png" class="more">
+			</div>
+
+		</div><!-- おわり：宿題リスト -->
+	</div><!-- おわり：全体のレイアウト -->
+</body>
+</html>
