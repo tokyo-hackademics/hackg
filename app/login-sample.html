@@ -8,6 +8,7 @@
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src="https://cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
     <script src="./js/app.js"></script>
+    <script src="./js/util.js"></script>
     <script src="./js/controllers.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <!-- Custom styles for this template -->
@@ -20,14 +21,17 @@
     <form class="form-signin" ng-submit="logIn()" ng-show="!isLogIn()">
         <h3>ログインする</h3>
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus ng-model="loginInfo.email">
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
+               ng-model="loginInfo.email">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="loginInfo.password">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
+               ng-model="loginInfo.password">
         <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
     </form>
 
     <form class="form-signin" ng-submit="logOut()" ng-show="isLogIn()">
         <p class="bg-info">{{authData.password.email}}としてログインしています</p>
+
         <h3>ログアウトする</h3>
         <button class="btn btn-lg btn-primary btn-block" type="submit">ログアウト</button>
     </form>

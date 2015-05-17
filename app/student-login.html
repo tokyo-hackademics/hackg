@@ -1,0 +1,83 @@
+<!doctype html>
+<html ng-app="hackgApp">
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>HackG 児童ログイン</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/controllers.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/teacher.css">
+</head>
+<body>
+<div ng-controller="loginController">
+    <nav class="navbar navbar-default navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="">HackG (仮) - {{currentClassName}}<span ng-show="!finishLoading"> ==== ロード中 ====</span></a>
+        </div>
+    </nav>
+    <form class="form-signin" ng-submit="logOut()" ng-show="isLogIn()">
+        <p>{{authData.password.email}}としてログインしています
+            <button class="btn btn-primary " type="submit">ログアウト</button>
+        </p>
+    </form>
+    <div class="container-fluid" ng-show="!isLogIn() && currentClassName">
+        <div class="row">
+            <div class="col-md-4 col-sm-4"></div>
+            <div class="col-md-4 col-sm-4 text-center">
+                <img src="images/musi2.png" width="200px">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>べんきょうをはじめよう！</h4></div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" ng-submit="studentLogIn()" style="padding-left:20px;">
+                            <!--<div class="form-group col-md-4 col-sm-4">-->
+                            <div class="form-group">
+                                <label class="col-md-12 col-sm-12" for="selectName">きみのなまえは？</label>
+
+                                <div class="col-sm-12 col-md-12">
+                                    <select class="form-control" id="selectName" ng-model="studentLoginInfo.uid"
+                                            ng-options="usersData[uid][&quot;name&quot;] for uid in studentList">
+                                        <option value="">なまえをえらんでね</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-12 col-sm-12" for="password">ひみつのあんごう</label>
+
+                                <div class="col-sm-12 col-md-12">
+                                    <input type="text" class="form-control" id="password" placeholder=""
+                                           ng-model="studentLoginInfo.password">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <!--<div class="form-group col-md-2 col-sm-2">-->
+                                <div class="col-md-12 col-sm-12">
+                                    <button type="submit" class="btn btn-default">はじめる</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12"><a href="teacher-login.html">先生のログインページはこちら</a></div>
+            </div>
+            <div class="col-md-4 col-sm-4"></div>
+        </div>
+    </div>
+
+    <div ng-show="(!isLogIn() && !currentClassName) && finishLoading">
+        <p>不適切なURLです。クラスIDを指定してください。<br>
+            <a href="index.html?class=class-2xjihrso">3年1組のログインページ</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

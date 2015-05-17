@@ -1,0 +1,176 @@
+<!doctype html>
+<html ng-app="hackgApp">
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>HackG 先生ページ</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/controllers.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/teacher.css">
+</head>
+<body>
+
+<div ng-controller="loginController">
+    <nav class="navbar navbar-default navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="">HackG (仮) - {{currentClassName}}<span ng-show="!finishLoading"> ==== ロード中 ====</span></a>
+        </div>
+        <!--<ul class="nav navbar-nav">-->
+        <!--<li class="active"><a href="">Link1</a></li>-->
+        <!--<li><a href="">Link2</a></li>-->
+        <!--</ul>-->
+    </nav>
+
+    {{isLogIn}}
+
+    <span ng-show="!isLogIn()">ログインしていません <a href="teacher-login.html">ログインページ</a></span>
+
+    <div ng-controller="teacherPageController">
+        <div class="container-fluid" ng-show="isLogIn() && finishLoading">
+            <div class="row">
+                <div class="col-md-7 col-sm-7 teacher-view-board" style="border-right: solid 1px #ddd;">
+                    <h4>宿題の追加</h4>
+
+                    <div class="row">
+                        <form class="form-horizontal" style="padding-left:20px;" ng-submit="addTask()">
+                            <!--<div class="form-group col-md-4 col-sm-4">-->
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2" for="taskDeadline">期限</label>
+
+                                <div class="col-sm-4 col-md-4">
+                                    <input type="date" class="form-control" id="taskDeadline" placeholder="2015/05/16"
+                                           ng-model="deadline">
+                                </div>
+                            </div>
+                            <!--<div class="form-group col-md-6 col-sm-6">-->
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2" for="taskTitle">タイトル</label>
+
+                                <div class="col-sm-8 col-md-8">
+                                    <input type="text" class="form-control" id="taskTitle" placeholder="漢字の書き取り"
+                                           ng-model="newTask.title">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2" for="taskGP">獲得GP</label>
+
+                                <div class="col-sm-2 col-md-2">
+                                    <input type="text" class="form-control" id="taskGP" placeholder="30"
+                                           ng-model="newTask.point">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2" for="taskDescription">説明</label>
+
+                                <div class="col-sm-8 col-md-8">
+                                <textarea class="form-control" rows="3" id="taskDescription"
+                                          placeholder="漢字ドリルp33〜p41" ng-model="newTask.description"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <!--<div class="form-group col-md-2 col-sm-2">-->
+                                <div class="col-sm-offset-2 col-md-2 col-sm-2">
+                                    <button type="submit" class="btn btn-default">追加</button>
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+                    <h4>宿題一覧</h4>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>今出している宿題</th>
+                            <th>追加日</th>
+                            <th>期限日</th>
+                            <th>完了</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="task in taskList | filter: false | orderBy: 'addDate' | limitTo: 3">
+                            <td>
+                                <div ng-click="selectTask(task)">{{task.title}}</div>
+                            </td>
+                            <td>{{task.addDate}}</td>
+                            <td>{{task.deadline}}</td>
+                            <td><input type="checkbox" ng-change="clickTodoTask()" ng-model="task.isFinished"
+                                       ng-init="task.isFinished=false"></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>完了済みの宿題</th>
+                            <th>追加日</th>
+                            <th>期限日</th>
+                            <th>完了</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="task in taskList | filter: true | orderBy: 'addDate' | limitTo: 3">
+                            <td>
+                                <div ng-click="selectTask(task)">{{task.title}}</div>
+                            </td>
+                            <td>{{task.addDate}}</td>
+                            <td>{{task.deadline}}</td>
+                            <td><input type="checkbox" ng-change="clickDoneTask()" ng-model="task.isFinished"
+                                       ng-init="task.isFinished=true"></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="col-md-5 col-sm-5 teacher-view-board">
+                    <h4>生徒の宿題状況 宿題名</h4>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="col-md-9 col-sm-9">
+                                生徒一覧
+                            </div>
+                            <div>
+                                <input ng-show="!orderByTaskStatus" type="submit" ng-click="toggleTaskStatus()" class="btn btn-default" value="全員表示" >
+                                <input ng-show="orderByTaskStatus" type="submit" ng-click="toggleTaskStatus()" class="btn btn-danger" value="未提出者のみ">
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <div ng-show="!selectedTaskId">タスクを選択してください</div>
+                                <li ng-show="!orderByTaskStatus && selectedTaskId" ng-repeat="user in studentList"
+                                    class="list-group-item">
+                                    <!--<span class="label label-default label-as-badge">提出済</span>-->
+                                     <span ng-if="usersHash[user].mandatoryTasks[selectedTaskId].finishDate!=='undefined' && selectedTaskId"
+                                           class="badge">提出
+                                     </span>
+                                     <span ng-if="usersHash[user].mandatoryTasks[selectedTaskId].finishDate=='undefined' && selectedTaskId"
+                                           class="badge alert-danger">未提出
+                                     </span>
+                                    {{usersHash[user].name}}
+                                </li>
+                                <li ng-show="orderByTaskStatus"
+                                    ng-repeat="(user,value) in usersHash" class="list-group-item"
+                                    ng-if="value['mandatoryTasks'][selectedTaskId].finishDate==='undefined' && selectedTaskId">
+                                    <span class="badge alert-danger">未提出</span>
+                                    {{usersHash[user].name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

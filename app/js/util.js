@@ -13,9 +13,9 @@ function getName(authData) {
 }
 
 function getNewUid(prefix) {
-    if(typeof prefix === 'undefined') {
+    if (typeof prefix === 'undefined') {
         prefix = "";
-    }else{
+    } else {
         prefix = prefix + "-"
     }
     var length = 8;
@@ -23,15 +23,41 @@ function getNewUid(prefix) {
     return uid
 }
 
-var getUrlVars = function(){
+var getUrlVars = function () {
     var vars = {};
     var param = location.search.substring(1).split('&');
-    for(var i = 0; i < param.length; i++) {
+    for (var i = 0; i < param.length; i++) {
         var keySearch = param[i].search(/=/);
         var key = '';
-        if(keySearch != -1) key = param[i].slice(0, keySearch);
+        if (keySearch != -1) key = param[i].slice(0, keySearch);
         var val = param[i].slice(param[i].indexOf('=', 0) + 1);
-        if(key != '') vars[key] = decodeURI(val);
+        if (key != '') vars[key] = decodeURI(val);
     }
     return vars;
+}
+
+var date2str = function (date){
+    var str = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    return str
+}
+
+var getTodayString = function(){
+    var currentDateTime = new Date();
+    return date2str(currentDateTime);
+}
+
+var str2date = function (str){
+    var devided = str.split("-");
+    var year = devided[0];
+    var month = devided[1];
+    var day = devided[2];
+    var date = new Date(year, month, day);
+    return date
+}
+
+var getTodayTime = function(){
+    var currentDateTime = new Date();
+    var dateStr = currentDateTime.getFullYear()+"-"+(currentDateTime.getMonth()+1)+"-"+currentDateTime.getDate();
+    var currentDate = str2date(dateStr);
+    return currentDate.getTime();
 }
