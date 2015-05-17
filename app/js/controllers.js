@@ -221,6 +221,7 @@
     module.controller('teacherPageController', function ($scope, fbRef) {
         var authData = fbRef.getAuth();
         $scope.selectedTaskId=null;
+        $scope.orderByTaskStatus=false;
         $scope.usersHash = {};
         $scope.taskList = [];
 
@@ -318,6 +319,18 @@
         $scope.selectTask = function (task) {
             console.log("select Task: "+task.uid);
             $scope.selectedTaskId=task.uid;
+        };
+
+        $scope.toggleTaskStatus = function(){
+            console.log("toggleTaskStatus: "+$scope.orderByTaskStatus);
+            $scope.orderByTaskStatus=!$scope.orderByTaskStatus;
+
+        };
+
+        $scope.hasTaskInProgress = function( user, value ){
+            var mandatoryTasks = value['mandatoryTasks'];
+            console.log("hasTaskInProgress: "+mandatoryTasks);
+            return mandatoryTasks[$scope.selectedTaskId].finishDate==='undefined' ? true : false;
         };
 
 

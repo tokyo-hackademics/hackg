@@ -134,10 +134,21 @@
                     <h4>生徒の宿題状況 宿題名</h4>
 
                     <div class="panel panel-default">
-                        <div class="panel-heading">生徒一覧</div>
+                        <div class="panel-heading">
+                            <div class="col-md-9 col-sm-9">
+                                生徒一覧
+                            </div>
+                            <div>
+                                <input ng-show="!orderByTaskStatus" type="submit" ng-click="toggleTaskStatus()" class="btn btn-default" value="全員表示" >
+                                <input ng-show="orderByTaskStatus" type="submit" ng-click="toggleTaskStatus()" class="btn btn-danger" value="未提出者のみ">
+                            </div>
+                        </div>
+
                         <div class="panel-body">
                             <ul class="list-group">
-                                <li ng-repeat="user in studentList" class="list-group-item">
+                                <div ng-show="!selectedTaskId">タスクを選択してください</div>
+                                <li ng-show="!orderByTaskStatus && selectedTaskId" ng-repeat="user in studentList"
+                                    class="list-group-item">
                                     <!--<span class="label label-default label-as-badge">提出済</span>-->
                                      <span ng-if="usersHash[user].mandatoryTasks[selectedTaskId].finishDate!=='undefined' && selectedTaskId"
                                            class="badge">提出
@@ -145,6 +156,12 @@
                                      <span ng-if="usersHash[user].mandatoryTasks[selectedTaskId].finishDate=='undefined' && selectedTaskId"
                                            class="badge alert-danger">未提出
                                      </span>
+                                    {{usersHash[user].name}}
+                                </li>
+                                <li ng-show="orderByTaskStatus"
+                                    ng-repeat="(user,value) in usersHash" class="list-group-item"
+                                    ng-if="value['mandatoryTasks'][selectedTaskId].finishDate==='undefined' && selectedTaskId">
+                                    <span class="badge alert-danger">未提出</span>
                                     {{usersHash[user].name}}
                                 </li>
                             </ul>
