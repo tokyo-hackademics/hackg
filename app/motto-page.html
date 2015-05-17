@@ -28,15 +28,15 @@
 </nav>
 <div ng-controller="loginController">
     <div ng-controller="mottoPageController">
-        <div ng-if="pageMode===SELECT_SUBJECT_PAGE" class="container-fluid">
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'こくご')" class="btn btn-primary col-xs-6" style="padding:80px;">こくご
+        <div ng-if="pageMode===SELECT_SUBJECT_PAGE" class="container-fluid kamoku-wrap">
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'こくご')" class="btn btn-primary col-xs-6 btn-kokugo"">こくご
             </button>
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'さんすう')" class="btn btn-primary col-xs-6" style="padding:80px;">
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'さんすう')" class="btn btn-primary col-xs-6 btn-sansu">
                 さんすう
             </button>
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'りか')" class="btn btn-primary col-xs-6" style="padding:80px;">りか
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'りか')" class="btn btn-primary col-xs-6 btn-rika">りか
             </button>
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'しゃかい')" class="btn btn-primary col-xs-6" style="padding:80px;">
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'しゃかい')" class="btn btn-primary col-xs-6 btn-syakai">
                 しゃかい
             </button>
         </div>

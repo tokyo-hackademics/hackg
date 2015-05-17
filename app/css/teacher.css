@@ -6,3 +6,39 @@ body{
 	background: url(../images/background2.png) no-repeat;
 	background-size: cover;
 }
+
+.btn-kokugo{
+	background: url(../images/kokugo-button.png) no-repeat;
+	width: 208px;
+	height:205px;
+	border: 0;
+	text-indent: -999px;
+}
+
+.btn-sansu{
+	background: url(../images/sansu-button.png) no-repeat;
+	width: 208px;
+	height:206px;
+	border: 0;
+	text-indent: -999px;
+}
+
+.btn-rika{
+	background: url(../images/rika-button.png) no-repeat;
+	width: 210px;
+	height:202px;
+	border: 0;
+	text-indent: -999px;
+}
+
+.btn-syakai{
+	background: url(../images/syakai-button.png) no-repeat;
+	width: 210px;
+	height:202px;
+	border: 0;
+	text-indent: -999px;
+}
+
+.kamoku-wrap{
+	text-align:center;
+}
