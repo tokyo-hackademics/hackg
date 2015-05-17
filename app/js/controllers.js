@@ -453,7 +453,7 @@
             var nMessages = 5;
             var index = Math.floor(Math.random() * (nMessages));
             //console.log("index", index);
-            var messages = ["宿題がんばってるね！", "今日もがんばろうね", "今日はいいてんきだね！", "テストまえ、がんばろう！", "そとであそぼう"];
+            var messages = ["こんにちは！", "今日もがんばろうね", "今日はいいてんきだね！", "テストまえ、がんばろう！", "そとであそぼう"];
             var mes = messages[index];
             //console.log("messages[index]", mes);
             return mes;
