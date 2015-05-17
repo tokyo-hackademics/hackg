@@ -67,7 +67,7 @@
                     console.log("Login Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
-                    window.setTimeout(fbRef.onAuth(authDataCallback), 2000)
+                    window.setTimeout(fbRef.onAuth(authDataCallback), 200)
                     location.href = 'login-sample.html';
                 }
 
@@ -401,14 +401,14 @@
 
         }
 
-        $scope.finishTask = function(task){
+        $scope.finishTask = function (task) {
             //console.log("hoge");
             //console.log(task["uid"],"selected task uid");
             var taskUid = task["uid"];
             var todayStr = getTodayString();
             //console.log(todayStr)
-            fbMyMandatoryTasks.child(taskUid+"/isFinished").set(true);
-            fbMyMandatoryTasks.child(taskUid+"/finishDate").set(todayStr);
+            fbMyMandatoryTasks.child(taskUid + "/isFinished").set(true);
+            fbMyMandatoryTasks.child(taskUid + "/finishDate").set(todayStr);
         };
 
         var calcPoints = function () {
@@ -421,10 +421,11 @@
 
             for (var i in $scope.myTasksArray) {
                 var task = $scope.myTasksArray[i];
-                console.log(task);
+                //console.log(task);
                 if (task.isFinished) {
                     totalExp += parseInt(task.point, 10);
-                    console.log(task.finishDate, "finishDate");
+                    console.log(totalExp, "totalExp")
+                    //console.log(task.finishDate, "finishDate");
 
                     var finishDate = str2date(task.finishDate);
                     var finishTime = finishDate.getTime();
@@ -442,5 +443,15 @@
             $scope.friendlyPoint = friendlyPoint;
             $scope.level = level;
         };
+
+        $scope.generateMessage = function () {
+            var nMessages = 5;
+            var index = Math.floor(Math.random() * (nMessages));
+            //console.log("index", index);
+            var messages = ["宿題がんばってるね！", "今日もがんばろうね", "今日はいいてんきだね！", "テストまえ、がんばろう！", "そとであそぼう"];
+            var mes = messages[index];
+            //console.log("messages[index]", mes);
+            return mes;
+        }
     })
 }(hackgModule));  // モジュール変数を引数に設定
