@@ -92,7 +92,7 @@
                         $scope.currentClassName = $scope.classHash[$scope.classUid]["name"];
                         //console.log("keys: ", Object.keys($scope.classHash));
                         //$scope.classKeys = data.val();
-                        //console.log(data.val());
+                        console.log(data.val());
                         $scope.$apply();
                     });
                 }
@@ -220,25 +220,37 @@
     'use strict';
     module.controller('teacherPageController', function ($scope, fbRef) {
         var authData = fbRef.getAuth();
+        $scope.selectedTaskId=null;
+        $scope.usersHash = {};
         $scope.taskList = [];
-        $scope.taskStatusList = [];
 
         if (authData !== null) {
             console.log(authData);
             console.log(getName(authData));
-            var fbUser = fbRef.child("users/" + authData.uid);
+            var fbUsers = fbRef.child("users/");
             var fbMandatoryTasks = fbRef.child("mandatoryTasks/");
+
+            //ユーザ情報のハッシュ取得のためのonce関数
+            fbUsers.on("value", function (data) {
+                console.log("teacherPageController, fbUsers.on()");
+                console.log(data.val());
+                $scope.usersHash = data.val();
+                $scope.$apply();
+            });
+
 
             //タスク表示のためのon関数
             fbMandatoryTasks.on("child_added", function (data) {
                 console.log(data.val());
-                $scope.taskList.push(data.val());
+                var task = data.val();
+                task.uid = data.key();
+                $scope.taskList.push(task);
                 $scope.$apply();
             });
 
         }
         $scope.addTask = function () {
-            console.log("debug1" + $scope.deadline);
+            console.log("execute addTask");
             var uid = getNewUid();
             var newTask = $scope.newTask;
             newTask.addDate = $scope.dateStr;
@@ -251,12 +263,10 @@
             } else {
                 newTask.deadline = "undefined";
             }
-            console.log("debug2" + newTask.deadline);
-
             newTask.isFinished = false;
             fbMandatoryTasks.child(uid).set(newTask);
             $scope.newTask = {};
-            console.log("debug3");
+            console.log("added newTask to mandatoryTasks");
 
             //生徒へのタスク情報追加
             var taskInfo = {};
@@ -266,9 +276,50 @@
             taskInfo.point = newTask.point;
             for (var sid in $scope.studentList) {
                 console.log(sid + ": " + $scope.studentList[sid]);
-                fbUsers.child($scope.studentList[sid] + "/mandatoryTasks/").push(taskInfo);
+                fbUsers.child($scope.studentList[sid] + "/mandatoryTasks/" + taskInfo.uid).set(taskInfo);
+            }
+            console.log("added taskInfo to eacah users/mandatoryTasks");
+        };
+
+        //TodoタスクをクリックするとDoneTaskになる
+        $scope.clickTodoTask = function () {
+            console.log("clickTodoTask");
+            for (var k in $scope.taskList) {
+                var task = $scope.taskList[k];
+                if (task.isFinished) {
+                    console.log(task.uid + "= isFinished: true.");
+                    console.log(task);
+                    fbMandatoryTasks.child(task.uid)
+                        .set({
+                            title: task.title, addDate: task.addDate, deadline: task.deadline,
+                            point: task.point, description: task.description, isFinished: task.isFinished
+                        });
+                }
             }
         };
+
+        //DoneタスクをクリックするとTodoTaskになる
+        $scope.clickDoneTask = function () {
+            console.log("clickDoneTask");
+            for (var k in $scope.taskList) {
+                var task = $scope.taskList[k];
+                if (!task.isFinished) {
+                    console.log(task.uid + "= isFinished: false.");
+                    fbMandatoryTasks.child(task.uid)
+                        .set({
+                            title: task.title, addDate: task.addDate, deadline: task.deadline,
+                            point: task.point, description: task.description, isFinished: task.isFinished
+                        });
+                }
+            }
+        };
+
+        //選択したタスクIDを取得してshowTaskProgressを呼ぶ
+        $scope.selectTask = function (task) {
+            console.log("select Task: "+task.uid);
+            $scope.selectedTaskId=task.uid;
+        };
+
 
     })
 }(hackgModule));  // モジュール変数を引数に設定
@@ -347,4 +398,3 @@
 
     })
 }(hackgModule));  // モジュール変数を引数に設定
-
