@@ -14,7 +14,7 @@
 
 #デモ手順
 ##１　児童のログイン
-[ログインページ](http://tokyo-hackademics.github.io/hackg/app/student-login.html?class=class-2xjihrso)
+[デモ用ログインページ](http://tokyo-hackademics.github.io/hackg/app/student-login.html?class=class-2xjihrso)
     
 児童はプルダウンリストから名前を選択し、ひみつのあんごう（パスワード）を入力する
 
