@@ -440,7 +440,11 @@
 
             $scope.totalExp = totalExp;
             $scope.currentExp = currentExp;
-            $scope.friendlyPoint = friendlyPoint;
+            if (friendlyPoint > 10) {
+                $scope.friendlyPoint = 10;
+            } else {
+                $scope.friendlyPoint = friendlyPoint;
+            }
             $scope.level = level;
         };
 
