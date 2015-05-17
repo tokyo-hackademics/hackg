@@ -444,3 +444,56 @@
         };
     })
 }(hackgModule));  // モジュール変数を引数に設定
+
+
+(function (module) {
+    'use strict';
+    module.controller('mottoPageController', function ($scope, fbRef) {
+        var authData = fbRef.getAuth();
+
+        $scope.SELECT_SUBJECT_PAGE  =1;
+        $scope.SELECT_UNIT_PAGE     =2;
+        $scope.SELECT_QUESTION_PAGE =3;
+        $scope.ANSWER_PAGE   =4;
+
+        $scope.pageMode = $scope.SELECT_SUBJECT_PAGE;
+        $scope.subject = null;
+        $scope.unit = null;
+        $scope.question = null;
+        $scope.answer = null;
+
+        $scope.setPageMode = function(mode){
+            console.log(mode);
+            $scope.pageMode=mode;
+        };
+
+        $scope.setSubject = function(subject){
+            console.log(subject);
+            $scope.subject=subject;
+        };
+
+        $scope.setUnit = function(unit){
+            console.log(unit);
+            $scope.unit=unit;
+        };
+
+        $scope.setQuestion = function(question){
+            console.log(question);
+            $scope.question=question;
+        };
+
+
+        $scope.setAnswer = function(answer){
+            console.log(answer);
+            $scope.answer=answer;
+        };
+
+        $scope.setParam = function( mode, sub, uni, que, ans ){
+            $scope.setPageMode(mode);
+            $scope.setSubject(sub);
+            $scope.setUnit(uni);
+            $scope.setQuestion(que);
+            $scope.setAnswer(ans);
+        };
+    })
+}(hackgModule));  // モジュール変数を引数に設定

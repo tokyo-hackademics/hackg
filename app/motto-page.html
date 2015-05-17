@@ -1,0 +1,68 @@
+<!doctype html>
+<html ng-app="hackgApp">
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>もっとやるページ</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/controllers.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/teacher.css">
+</head>
+<body>
+<nav class="navbar navbar-default navbar-inverse">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="">HackG (仮) - x年y組</a>
+    </div>
+    <!--<ul class="nav navbar-nav">-->
+    <!--<li class="active"><a href="">Link1</a></li>-->
+    <!--<li><a href="">Link2</a></li>-->
+    <!--</ul>-->
+    <!--<ul class="nav navbar-nav navbar-right">-->
+    <!--<li><a href="">Link3</a></li>-->
+    <!--</ul>-->
+</nav>
+<div ng-controller="loginController">
+    <div ng-controller="mottoPageController">
+        <div ng-if="pageMode===SELECT_SUBJECT_PAGE" class="container-fluid">
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'こくご')" class="col-xs-6" style="padding:80px;">こくご
+            </button>
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'さんすう')" class="col-xs-6" style="padding:80px;">
+                さんすう
+            </button>
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'りか')" class="col-xs-6" style="padding:80px;">りか
+            </button>
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'しゃかい')" class="col-xs-6" style="padding:80px;">
+                しゃかい
+            </button>
+        </div>
+
+        <div ng-if="pageMode===SELECT_UNIT_PAGE" class="container-fluid">
+            <button type="submit" ng-click="setParam(SELECT_SUBJECT_PAGE)" class="col-xs-12" style="padding:40px;">{{subject}}</button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元１')" class="col-xs-12" style="padding:40px;">単元１</button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元２')" class="col-xs-12" style="padding:40px;">単元２</button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元３')" class="col-xs-12" style="padding:40px;">単元３</button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元４')" class="col-xs-12" style="padding:40px;">単元４</button>
+        </div>
+
+        <div ng-if="pageMode===SELECT_QUESTION_PAGE" class="container-fluid">
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,subject)" class="col-xs-12" style="padding:40px;">{{subject}}|{{unit}}</button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問１')" class="col-xs-12" style="padding:40px;">問１</button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問２')" class="col-xs-12" style="padding:40px;">問２</button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問３')" class="col-xs-12" style="padding:40px;">問３</button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問４')" class="col-xs-12" style="padding:40px;">問４</button>
+        </div>
+
+        <div ng-if="pageMode===ANSWER_PAGE" class="container-fluid">
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,unit)" class="col-xs-12" style="padding:40px;">{{subject}}|{{unit}}|{{question}}</button>
+            <textarea placeholder="回答してください" class="col-xs-12 form-control" rows='4'></textarea>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
