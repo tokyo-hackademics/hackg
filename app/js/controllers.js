@@ -220,8 +220,11 @@
     'use strict';
     module.controller('teacherPageController', function ($scope, fbRef) {
         var authData = fbRef.getAuth();
-        $scope.selectedTaskId = null;
-        $scope.orderByTaskStatus = false;
+        $scope.limitNumTodoTask=3;
+        $scope.limitNumDoneTask=3;
+        $scope.selectedTaskTitle=null;
+        $scope.selectedTaskId=null;
+        $scope.orderByTaskStatus=false;
         $scope.usersHash = {};
         $scope.taskList = [];
 
@@ -317,8 +320,9 @@
 
         //選択したタスクIDを取得してshowTaskProgressを呼ぶ
         $scope.selectTask = function (task) {
-            console.log("select Task: " + task.uid);
-            $scope.selectedTaskId = task.uid;
+            console.log("select Task: "+task.uid);
+            $scope.selectedTaskTitle=task.title;
+            $scope.selectedTaskId=task.uid;
         };
 
         $scope.toggleTaskStatus = function () {
@@ -327,7 +331,27 @@
 
         };
 
-        $scope.hasTaskInProgress = function (user, value) {
+        $scope.toggleShowAllTodoTask = function () {
+            console.log($scope.limitNumTodoTask);
+            if ($scope.limitNumTodoTask !== 3) {
+                $scope.limitNumTodoTask = 3;
+            } else {
+                $scope.limitNumTodoTask = 100;
+            }
+            $scope.$apply();
+        };
+        $scope.toggleShowAllDoneTask = function () {
+            console.log($scope.limitNumDoneTask);
+            if ($scope.limitNumDoneTask !== 3) {
+                $scope.limitNumDoneTask = 3;
+            } else {
+                $scope.limitNumDoneTask = 100;
+            }
+            $scope.$apply();
+        };
+
+
+        $scope.hasTaskInProgress = function( user, value ){
             var mandatoryTasks = value['mandatoryTasks'];
             console.log("hasTaskInProgress: " + mandatoryTasks);
             return mandatoryTasks[$scope.selectedTaskId].finishDate === 'undefined' ? true : false;
