@@ -1,7 +1,7 @@
 #
 # 20150517 Tokyo Hackademics 2015
 # Team: HackG
-# Members: Kenta Nishi, Tatsuki Murakami, Natsuki Watanabe, Junko Taniguchi
+# Members: Kenta Nishi, Tatsuki Murakami, Natsuki Watanabe, Ayako Taniguchi
 #
 
 #アプリ概要
