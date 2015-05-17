@@ -16,7 +16,7 @@
 <body>
 <nav class="navbar navbar-default navbar-inverse">
     <div class="navbar-header">
-        <a class="navbar-brand" href="">むしとも - x年y組</a>
+        <a class="navbar-brand" href="">むしとも </a>
     </div>
     <!--<ul class="nav navbar-nav">-->
     <!--<li class="active"><a href="">Link1</a></li>-->
@@ -29,36 +29,39 @@
 <div ng-controller="loginController">
     <div ng-controller="mottoPageController">
         <div ng-if="pageMode===SELECT_SUBJECT_PAGE" class="container-fluid kamoku-wrap">
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'こくご')" class="btn btn-primary col-xs-6 btn-kokugo"">こくご
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'こくご')" class="btn btn-info col-xs-6 btn-kokugo"">こくご
             </button>
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'さんすう')" class="btn btn-primary col-xs-6 btn-sansu">
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'さんすう')" class="btn btn-info col-xs-6 btn-sansu">
                 さんすう
             </button>
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'りか')" class="btn btn-primary col-xs-6 btn-rika">りか
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'りか')" class="btn btn-info col-xs-6 btn-rika">りか
             </button>
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'しゃかい')" class="btn btn-primary col-xs-6 btn-syakai">
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,'しゃかい')" class="btn btn-info col-xs-6 btn-syakai">
                 しゃかい
             </button>
         </div>
 
         <div ng-if="pageMode===SELECT_UNIT_PAGE" class="container-fluid">
-            <button type="submit" ng-click="setParam(SELECT_SUBJECT_PAGE)" class="btn btn-primary col-xs-12" style="padding:40px;">{{subject}}</button>
-            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元１')" class="btn btn-primary col-xs-12" style="padding:40px;">単元１</button>
-            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元２')" class="btn btn-primary col-xs-12" style="padding:40px;">単元２</button>
-            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元３')" class="btn btn-primary col-xs-12" style="padding:40px;">単元３</button>
-            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元４')" class="btn btn-primary col-xs-12" style="padding:40px;">単元４</button>
+            <button type="submit" ng-click="setParam(SELECT_SUBJECT_PAGE)" class="btn btn-info col-xs-12" style="padding:40px;"><h2>{{subject}}</h2></button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元１')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>単元１</h2></button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元２')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>単元２</h2></button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元３')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>単元３</h2></button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,'単元４')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>単元４</h2></button>
         </div>
 
         <div ng-if="pageMode===SELECT_QUESTION_PAGE" class="container-fluid">
-            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,subject)" class="btn btn-primary col-xs-12" style="padding:40px;">{{subject}}|{{unit}}</button>
-            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問１')" class="btn btn-primary col-xs-12" style="padding:40px;">問１</button>
-            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問２')" class="btn btn-primary col-xs-12" style="padding:40px;">問２</button>
-            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問３')" class="btn btn-primary col-xs-12" style="padding:40px;">問３</button>
-            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問４')" class="btn btn-primary col-xs-12" style="padding:40px;">問４</button>
+            <button type="submit" ng-click="setParam(SELECT_UNIT_PAGE,subject)" class="btn btn-info col-xs-12" style="padding:40px;"><h2>{{subject}}|{{unit}}</h2></button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問１')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>問１</h2></button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問２')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>問２</h2></button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問３')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>問３</h2></button>
+            <button type="submit" ng-click="setParam(ANSWER_PAGE,subject,unit,'問４')" class="btn btn-info col-xs-12" style="padding:40px;"><h2>問４</h2></button>
         </div>
 
         <div ng-if="pageMode===ANSWER_PAGE" class="container-fluid">
-            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,unit)" class="btn btn-primary col-xs-12" style="padding:40px;">{{subject}}|{{unit}}|{{question}}</button>
+            <button type="submit" ng-click="setParam(SELECT_QUESTION_PAGE,subject,unit)" class="btn btn-info col-xs-12" style="padding:40px;">
+                <p><h2>{{subject}}|{{unit}}|{{question}}</h2></p>
+                <p><h2>問題文</h2></p>
+            </button>
             <textarea placeholder="回答してください" class="col-xs-12 form-control" rows='4'></textarea>
         </div>
 
