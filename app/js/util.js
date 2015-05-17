@@ -37,7 +37,7 @@ var getUrlVars = function () {
 }
 
 var date2str = function (date){
-    var str = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    var str = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
     return str
 }
 
