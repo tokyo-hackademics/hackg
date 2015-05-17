@@ -13,7 +13,8 @@
 
 
 #デモ手順
-１　児童のログイン
+１　児童のログイン→ [ログインページ](http://tokyo-hackademics.github.io/hackg/app/student-login.html?class=class-2xjihrso)
+    
 　　児童はプルダウンリストから名前を選択し、ひみつのあんごう（パスワード）を入力する
     例：ID: 星空　凛　PASS: hackg
    「むしとも」にログイン完了！
