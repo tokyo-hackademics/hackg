@@ -1,11 +1,12 @@
 body{
-	overflow:hidden;
+	/*overflow:hidden;*/
+	background: #b4d465;
+
 }
 
 .container{
 	/*min-height: 768px;*/
 	/*padding: 20px;*/
-	/*background: #b4d465;*/
 	background: url(../images/background.png) no-repeat -80px 0;
 }
 
